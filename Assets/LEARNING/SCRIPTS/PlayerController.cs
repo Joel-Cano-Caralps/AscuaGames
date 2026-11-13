@@ -123,7 +123,6 @@ public class PlayerController : MonoBehaviour
         Vector3 currentHorVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
         Vector3 gravityAlongSlope = Vector3.ProjectOnPlane(Physics.gravity, groundNormal);      
         Vector3 targetVel = dir * (sprintAction.IsPressed() ? runSpeed : walkSpeed);
-
         //Debug.Log(rb.linearVelocity);
 
         force = ((targetVel - currentHorVel) * acceleration) - gravityAlongSlope;
