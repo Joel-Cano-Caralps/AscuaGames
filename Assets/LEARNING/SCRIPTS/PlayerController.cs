@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
 
     [HorizontalLine]
 
-    [SerializeField] float slopeAdjustSpeed = 60f;
+    [SerializeField] float slopeAdjustSpeed = 2f;
     [SerializeField] float rotationSpeed = 360f;
     #endregion
 
@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour
     #endregion
     PlayerState currentState = PlayerState.Idle;
     Vector3 force;
+    Vector3 groundNormal = Vector3.up;
 
     void Awake()
     {
@@ -63,6 +64,7 @@ public class PlayerController : MonoBehaviour
         Vector2 input = moveAction.ReadValue<Vector2>();
         if (input.sqrMagnitude > 1f) input.Normalize();
 
+        groundNormal = GetSlopeNormal();
 
         Rotation();
         Movement(input);
@@ -74,29 +76,33 @@ public class PlayerController : MonoBehaviour
         SetAnimations();
     }
 
-    #region ROTATION
-    void Rotation()
+    Vector3 GetSlopeNormal()
     {
-        Debug.DrawRay(transform.position, Vector3.down * 0.5f, Color.green);
-        Vector3 reflectedVec = Vector3.up;
+        Vector3 slopeNormal = Vector3.up;
         if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, 0.5f))
         {
-            reflectedVec = hit.normal;
+            slopeNormal = hit.normal;
         }
-        Debug.Log(Vector3.Angle(Vector3.up, reflectedVec));
-        Vector3 horizontalDir = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
-        if (horizontalDir.sqrMagnitude < 0.01f) return;
-
-        Vector3 slopeDir = Vector3.ProjectOnPlane(horizontalDir, reflectedVec);
-        if (slopeDir.sqrMagnitude < 0.01f) return;
-
-        Quaternion horizontalRot = Quaternion.LookRotation(horizontalDir, reflectedVec);
-        Quaternion afterYaw = Quaternion.RotateTowards(rb.rotation, horizontalRot, rotationSpeed * Time.fixedDeltaTime);
-
-        Quaternion slopeRot = Quaternion.LookRotation(slopeDir, reflectedVec);
-        rb.MoveRotation(Quaternion.RotateTowards(afterYaw, slopeRot, slopeAdjustSpeed * Time.fixedDeltaTime));
+        return slopeNormal;
     }
 
+    #region ROTATION
+        void Rotation()
+        {
+            Vector3 forward = Vector3.ProjectOnPlane(rb.rotation * Vector3.forward, groundNormal);
+            Quaternion tiltRot = Quaternion.LookRotation(forward, groundNormal);
+            Quaternion newRot = Quaternion.Slerp(rb.rotation, tiltRot, slopeAdjustSpeed * Time.fixedDeltaTime);
+
+            Vector3 horizontalDir = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+            if (horizontalDir.sqrMagnitude > 0.01f)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(horizontalDir, groundNormal);
+                newRot = Quaternion.Slerp(newRot, targetRotation, rotationSpeed * Time.fixedDeltaTime);
+            }
+
+            rb.MoveRotation(newRot);
+        }
+    
     #endregion
     #region MOVEMENT
     void Movement(Vector2 input)
@@ -114,12 +120,13 @@ public class PlayerController : MonoBehaviour
         if (dir.sqrMagnitude > 1f) dir.Normalize();
 
         //ADD FORCES
-        Vector3 currentVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+        Vector3 currentHorVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+        Vector3 gravityAlongSlope = Vector3.ProjectOnPlane(Physics.gravity, groundNormal);      
         Vector3 targetVel = dir * (sprintAction.IsPressed() ? runSpeed : walkSpeed);
 
-        Debug.Log(rb.linearVelocity);
+        //Debug.Log(rb.linearVelocity);
 
-        force = (targetVel - currentVel) * acceleration;
+        force = ((targetVel - currentHorVel) * acceleration) - gravityAlongSlope;
         rb.AddForce(force, ForceMode.Acceleration);
     }
 

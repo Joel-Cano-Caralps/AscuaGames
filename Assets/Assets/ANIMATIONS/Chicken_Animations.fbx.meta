@@ -18,12 +18,12 @@ ModelImporter:
     removeConstantScaleCurves: 0
     motionNodeName: 
     animationImportErrors: 
-    animationImportWarnings: "\nClip 'Bake_Walk' has import animation warnings that might lower retargeting quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'DEF_Neck.002' is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip 'Bake_Run' has import animation warnings that might lower retargeting quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'DEF_Neck.002' is inbetween humanoid transforms and has rotation animation that will be discarded.\n\nClip 'Bake_Attack' has import animation warnings that might lower retargeting quality:\nNote: Activate translation DOF on avatar to improve retargeting quality.\n\t'DEF_Neck.002' is inbetween humanoid transforms and has rotation animation that will be discarded.\n"
+    animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
-    animationCompression: 3
+    animationCompression: 1
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
@@ -49,8 +49,8 @@ ModelImporter:
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
       keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
+      keepOriginalPositionY: 0
+      keepOriginalPositionXZ: 1
       heightFromFeet: 0
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000u
@@ -78,7 +78,7 @@ ModelImporter:
       loopBlendPositionY: 0
       loopBlendPositionXZ: 0
       keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
+      keepOriginalPositionY: 0
       keepOriginalPositionXZ: 0
       heightFromFeet: 0
       mirror: 0
@@ -204,415 +204,7 @@ ModelImporter:
   importAnimation: 1
   humanDescription:
     serializedVersion: 3
-    human:
-    - boneName: DEF_Stomach.001
-      humanName: Hips
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Leg_L.001
-      humanName: LeftUpperLeg
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Leg_R.001
-      humanName: RightUpperLeg
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Shin_L.001
-      humanName: LeftLowerLeg
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Shin_R.001
-      humanName: RightLowerLeg
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Foot_L.001
-      humanName: LeftFoot
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Foot_R.001
-      humanName: RightFoot
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Chest.001
-      humanName: Spine
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Neck.001
-      humanName: Neck
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Head.001
-      humanName: Head
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Shoulder_L.001
-      humanName: LeftShoulder
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Shoulder_R.001
-      humanName: RightShoulder
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Arm_L.001
-      humanName: LeftUpperArm
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Arm_R.001
-      humanName: RightUpperArm
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Forearm_L.001
-      humanName: LeftLowerArm
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Forearm_R.001
-      humanName: RightLowerArm
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: Hand_L.001
-      humanName: LeftHand
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: Hand_R.001
-      humanName: RightHand
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: Int_Toe_L.001
-      humanName: LeftToes
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: Int_Toe_R.001
-      humanName: RightToes
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Jaw.001
-      humanName: Jaw
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Thumb_L.001
-      humanName: Left Thumb Proximal
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Thumb_L.002
-      humanName: Left Thumb Intermediate
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Thumb_L.003
-      humanName: Left Thumb Distal
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Pre_Index_L.001
-      humanName: Left Index Proximal
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Index_L.001
-      humanName: Left Index Intermediate
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Index_L.002
-      humanName: Left Index Distal
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Pre_Middle_L.001
-      humanName: Left Middle Proximal
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Middle_L.001
-      humanName: Left Middle Intermediate
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Middle_L.002
-      humanName: Left Middle Distal
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Pre_Ring_L.001
-      humanName: Left Ring Proximal
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Ring_L.001
-      humanName: Left Ring Intermediate
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Ring_L.002
-      humanName: Left Ring Distal
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Pre_Pinkie_L.001
-      humanName: Left Little Proximal
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Pinkie_L.001
-      humanName: Left Little Intermediate
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Pinkie_L.002
-      humanName: Left Little Distal
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Thumb_R.001
-      humanName: Right Thumb Proximal
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Thumb_R.002
-      humanName: Right Thumb Intermediate
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Thumb_R.003
-      humanName: Right Thumb Distal
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Pre_Index_R.001
-      humanName: Right Index Proximal
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Index_R.001
-      humanName: Right Index Intermediate
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Index_R.002
-      humanName: Right Index Distal
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Pre_Middle_R.001
-      humanName: Right Middle Proximal
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Middle_R.001
-      humanName: Right Middle Intermediate
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Middle_R.002
-      humanName: Right Middle Distal
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Pre_Ring_R.001
-      humanName: Right Ring Proximal
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Ring_R.001
-      humanName: Right Ring Intermediate
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Ring_R.002
-      humanName: Right Ring Distal
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Pre_Pinkie_R.001
-      humanName: Right Little Proximal
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Pinkie_R.001
-      humanName: Right Little Intermediate
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
-    - boneName: DEF_Pinkie_R.002
-      humanName: Right Little Distal
-      limit:
-        min: {x: 0, y: 0, z: 0}
-        max: {x: 0, y: 0, z: 0}
-        value: {x: 0, y: 0, z: 0}
-        length: 0
-        modified: 0
+    human: []
     skeleton:
     - name: Chicken(Clone)
       parentName: 
@@ -1187,13 +779,13 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     globalScale: 1
-    rootMotionBoneName: 
+    rootMotionBoneName: Root.001
     hasTranslationDoF: 0
     hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: 503ec51a3ce1dab4e911148db33e205b, type: 3}
   autoGenerateAvatarMappingIfUnspecified: 1
-  animationType: 3
+  animationType: 2
   humanoidOversampling: 1
   avatarSetup: 2
   addHumanoidExtraRootOnlyWhenUsingAvatar: 1
