@@ -169,10 +169,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   inputActions: {fileID: -944628639613478452, guid: 11f2b7a38db0ed249bdd13d64da7fc5a, type: 3}
-  walkSpeed: 3
-  runSpeed: 5
+  walkSpeed: 2
+  runSpeed: 6
   acceleration: 5
   maxSlopeAngle: 45
+  temporizador: 10
+  OnIdle: 0
+  estadoAnterior: 0
   rotationSpeed: 5
   slopeCheckPoint: {fileID: 0}
 --- !u!54 &27960984

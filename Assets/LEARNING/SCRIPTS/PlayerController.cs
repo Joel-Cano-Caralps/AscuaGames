@@ -23,9 +23,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float runSpeed = 8f;
     [SerializeField] float acceleration = 20f;
     [SerializeField] float maxSlopeAngle = 45f;
+    [Header("Animation Settings")]
+    [SerializeField] float temporizador = 30f;
+    [SerializeField] bool OnIdle;
+    [SerializeField] PlayerState estadoAnterior;
     [HorizontalLine]
-
     [SerializeField] float rotationSpeed = 10f;
+
+
+
     #endregion
 
     #region REFERENCES
@@ -85,6 +91,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        print(temporizador);
         SetAnimations();
     }
 
@@ -96,6 +103,11 @@ public class PlayerController : MonoBehaviour
             slopeNormal = hit.normal;
         }
         return slopeNormal;
+    }
+
+    void ResetTemporizador()
+    {
+        temporizador = Random.Range(20f, 30f);
     }
 
     #region ROTATION
@@ -163,13 +175,28 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     #region ANIMATION
+
     void SetAnimations()
     {
+        if (currentState != estadoAnterior)
+        {
+            if (currentState == PlayerState.Idle)
+                ResetTemporizador();
+
+            estadoAnterior = currentState;
+        }
+
         switch (currentState)
         {
             case PlayerState.Idle:
+                temporizador -= Time.deltaTime;
                 animator.SetBool("isMoving", false);
                 animator.SetBool("isRunning", false);
+                if(temporizador <= 0)
+                {
+                    animator.SetTrigger("isIdle");
+                    ResetTemporizador();
+                }
                 break;
 
             case PlayerState.Walking:
