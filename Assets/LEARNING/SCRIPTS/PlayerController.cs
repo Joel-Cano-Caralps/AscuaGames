@@ -1,52 +1,44 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using NaughtyAttributes;
 
 public class PlayerController : MonoBehaviour
 {
-    #region ENUMS
     public enum PlayerState { Idle, Walking, Running }
     public PlayerState CurrentState => currentState;
-    #endregion
 
-    #region INPUT
     [Header("Input")]
     [SerializeField] InputActionAsset inputActions;
 
-    InputAction moveAction;
-    InputAction sprintAction;
-    #endregion
-
-    #region SETTINGS
     [Header("Movement Settings")]
     [SerializeField] float walkSpeed = 4f;
     [SerializeField] float runSpeed = 8f;
     [SerializeField] float acceleration = 20f;
-    [SerializeField] float maxSlopeAngle = 45f;
-    [Header("Animation Settings")]
-    [SerializeField] float temporizador = 30f;
-    [SerializeField] bool OnIdle;
-    [SerializeField] PlayerState estadoAnterior;
-    [HorizontalLine]
     [SerializeField] float rotationSpeed = 10f;
+    [SerializeField] float fallForce = 9.81f;
+    [SerializeField] float maxSlopeAngle = 45f;
 
+    [Header("Ground Check")]
+    [SerializeField] float groundCheckDistance = 0.3f;
+    [SerializeField] float groundCheckRadius = 0.25f;
+    private Vector3 groundSpherePos;
+    [SerializeField] LayerMask groundLayer;
 
+    [Header("Animation Settings")]
+    [SerializeField] float idleTimer = 30f;
 
-    #endregion
-
-    #region REFERENCES
+    InputAction moveAction;
+    InputAction sprintAction;
     Rigidbody rb;
     Transform cam;
     Animator animator;
-    [SerializeField] private Transform slopeCheckPoint;
-    #endregion
 
     PlayerState currentState = PlayerState.Idle;
+    Vector3 lastMoveDir;
     Vector3 force;
     Vector3 groundNormal = Vector3.up;
-
-    Vector3 RayOrigin => slopeCheckPoint != null ? slopeCheckPoint.position : transform.position;
-
+    float currentIdleTimer;
+    Vector3 groundRayOrigin => transform.position + Vector3.up * 0.2f;
+    float groundRayLength => 0.2f + groundCheckDistance;
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -55,6 +47,11 @@ public class PlayerController : MonoBehaviour
 
         moveAction = inputActions.FindAction("Move");
         sprintAction = inputActions.FindAction("Sprint");
+
+        lastMoveDir = Vector3.ProjectOnPlane(transform.forward, Vector3.up).normalized;
+        currentIdleTimer = idleTimer;
+
+        groundSpherePos = transform.position;
     }
 
     void OnEnable()
@@ -71,160 +68,104 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        Vector2 input = moveAction.ReadValue<Vector2>();
-        if (input.sqrMagnitude > 1f) input.Normalize();
+        Vector2 input = Vector2.ClampMagnitude(moveAction.ReadValue<Vector2>(), 1f);
+        Vector3 dir = GetMoveDirection(input);
+        bool grounded = IsGrounded();
 
-        groundNormal = GetSlopeNormal();
+        if (dir.sqrMagnitude > 0.01f) lastMoveDir = dir.normalized;
 
-        float slopeAngle = Vector3.Angle(Vector3.up, groundNormal);
-        if (slopeAngle > maxSlopeAngle)
-        {
-            UpdateState(Vector2.zero);
-            return;
-        }
+        Rotate();
 
-        Rotation();
-        Movement(input);
-        UpdateState(input);
-        Debug.Log($"Grounded: {IsGrounded()} | Origin: {RayOrigin} | Y pies: {transform.position.y:F2} | Vel: {rb.linearVelocity.magnitude:F2} | Input: {input.sqrMagnitude:F2} | State: {currentState}");
+        //SI LA PENDIENTE SUPERA EL MAXIMO, NO SE PUEDE CONTROLAR AL PERSONAJE
+        bool tooSteep = Vector3.Angle(Vector3.up, groundNormal) > maxSlopeAngle;
+        bool canMove = grounded && !tooSteep;
+
+        if (canMove) Move(dir);
+        else if (!grounded) rb.AddForce(Vector3.down * fallForce, ForceMode.Acceleration);
+
+        bool isMoving = canMove && dir.sqrMagnitude > 0.01f;
+        if (!isMoving) currentState = PlayerState.Idle;
+        else currentState = sprintAction.IsPressed() ? PlayerState.Running : PlayerState.Walking;
     }
 
     void Update()
     {
-        print(temporizador);
+        Debug.Log("Grounded " + IsGrounded());
         SetAnimations();
     }
 
-    Vector3 GetSlopeNormal()
+    Vector3 GetMoveDirection(Vector2 input)
     {
-        Vector3 slopeNormal = Vector3.up;
-        if (Physics.Raycast(RayOrigin, Vector3.down, out RaycastHit hit, 0.5f))
-        {
-            slopeNormal = hit.normal;
-        }
-        return slopeNormal;
+        Vector3 forward = Vector3.ProjectOnPlane(cam.forward, Vector3.up).normalized;
+        Vector3 right = Vector3.ProjectOnPlane(cam.right, Vector3.up).normalized;
+        return forward * input.y + right * input.x;
+    }
+    
+    void Rotate()
+    {
+        //NORMAL DEL SUELO SUAVIZADA (SI NO HAY SUELO, VUELVE A "ARRIBA")
+        Vector3 rawNormal = Vector3.up;
+        if (Physics.Raycast(groundRayOrigin, Vector3.down, out RaycastHit hit, groundRayLength))
+            rawNormal = hit.normal;
+
+        float t = 1f - Mathf.Exp(-rotationSpeed * Time.fixedDeltaTime);
+        groundNormal = Vector3.Slerp(groundNormal, rawNormal, t).normalized;
+
+        //MIRAR HACIA lastMoveDir PERO INCLINADO SEGUN EL SUELO
+        Vector3 slopeForward = Vector3.ProjectOnPlane(lastMoveDir, groundNormal);
+        Quaternion target = Quaternion.LookRotation(slopeForward, groundNormal);
+        rb.MoveRotation(Quaternion.Slerp(rb.rotation, target, t));
     }
 
-    void ResetTemporizador()
+
+    void Move(Vector3 dir)
     {
-        temporizador = Random.Range(20f, 30f);
-    }
-
-    #region ROTATION
-    void Rotation()
-    {
-        Quaternion newRot = rb.rotation;
-
-        //AJUSTAR ROTACION SEGUN EL MOVIMIENTO
-        Vector3 horizontalDir = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
-        if (horizontalDir.sqrMagnitude > 0.01f)
-        {
-            Vector3 slopeForward = Vector3.ProjectOnPlane(horizontalDir, groundNormal);
-            Quaternion targetRotation = Quaternion.LookRotation(slopeForward, groundNormal);
-            newRot = Quaternion.Slerp(newRot, targetRotation, rotationSpeed * Time.fixedDeltaTime);
-        }
-        else
-        {
-            //SOLO AJUSTARSE EN PENDIENTES
-            Vector3 slopeForward = Vector3.ProjectOnPlane(newRot * Vector3.forward, groundNormal);
-            Quaternion tiltRot = Quaternion.LookRotation(slopeForward, groundNormal);
-            newRot = Quaternion.Slerp(newRot, tiltRot, rotationSpeed * Time.fixedDeltaTime);
-        }
-
-        rb.MoveRotation(newRot);
-    }
-    #endregion
-
-    #region MOVEMENT
-    void Movement(Vector2 input)
-    {
-        //GET CAMERA DIRECTION
-        Vector3 camForward = cam.forward;
-        camForward.y = 0f;
-        camForward.Normalize();
-
-        Vector3 camRight = cam.right;
-        camRight.y = 0f;
-        camRight.Normalize();
-
-        Vector3 dir = camForward * input.y + camRight * input.x;
-        if (dir.sqrMagnitude > 1f) dir.Normalize();
-
-        //ADD FORCES
-        Vector3 currentHorVel = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
+        //DIRECCION Y VELOCIDAD ACTUAL PROYECTADAS EN EL MISMO PLANO (LA RAMPA)
+        Vector3 currentSlopeDir = Vector3.ProjectOnPlane(dir, groundNormal).normalized * dir.magnitude;
+        Vector3 currentSlopeVel = Vector3.ProjectOnPlane(rb.linearVelocity, groundNormal);
+        Vector3 finalVel = currentSlopeDir * (sprintAction.IsPressed() ? runSpeed : walkSpeed);
         Vector3 gravityAlongSlope = Vector3.ProjectOnPlane(Physics.gravity, groundNormal);
-        Vector3 targetVel = dir * (sprintAction.IsPressed() ? runSpeed : walkSpeed);
 
-        force = ((targetVel - currentHorVel) * acceleration) - gravityAlongSlope;
+        force = (finalVel - currentSlopeVel) * acceleration - gravityAlongSlope;
         rb.AddForce(force, ForceMode.Acceleration);
     }
 
-    void UpdateState(Vector2 input)
-    {
-        //A TENER EN CUENTA QUE ACTUALMENTE NO EXISTEN ESTADOS EN EL AIRE
-        bool isMoving = input.sqrMagnitude > 0.01f && IsGrounded();
-
-        if (!isMoving)
-        {
-            currentState = PlayerState.Idle;
-            return;
-        }
-
-        currentState = sprintAction.IsPressed() ? PlayerState.Running : PlayerState.Walking;
-    }
-    #endregion
-
-    #region ANIMATION
-
-    void SetAnimations()
-    {
-        if (currentState != estadoAnterior)
-        {
-            if (currentState == PlayerState.Idle)
-                ResetTemporizador();
-
-            estadoAnterior = currentState;
-        }
-
-        switch (currentState)
-        {
-            case PlayerState.Idle:
-                temporizador -= Time.deltaTime;
-                animator.SetBool("isMoving", false);
-                animator.SetBool("isRunning", false);
-                if(temporizador <= 0)
-                {
-                    animator.SetTrigger("isIdle");
-                    ResetTemporizador();
-                }
-                break;
-
-            case PlayerState.Walking:
-                animator.SetBool("isMoving", true);
-                animator.SetBool("isRunning", false);
-                break;
-
-            case PlayerState.Running:
-                animator.SetBool("isMoving", true);
-                animator.SetBool("isRunning", true);
-                break;
-        }
-    }
-    #endregion
-
-    #region GROUND CHECK
-    public bool IsGrounded()
-    {
-        return Physics.Raycast(RayOrigin + Vector3.up * 0.2f, Vector3.down, 0.3f);
-    }
-    #endregion
-
-    #region DEBUG
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawLine(transform.position, transform.position + force);
         Gizmos.DrawSphere(transform.position + force, 0.05f);
     }
-    #endregion
+
+    public bool IsGrounded()
+    {
+        return Physics.CheckSphere(transform.position, groundCheckRadius, groundLayer, QueryTriggerInteraction.Ignore);
+    }
+
+    void SetAnimations()
+    {
+        bool idle = currentState == PlayerState.Idle;
+        animator.SetBool("isMoving", !idle);
+        animator.SetBool("isRunning", currentState == PlayerState.Running);
+
+        if (!idle)
+        {
+            currentIdleTimer = idleTimer;
+            animator.ResetTrigger("isIdle");
+            return;
+        }
+
+        currentIdleTimer -= Time.deltaTime;
+        if (currentIdleTimer <= 0f)
+        {
+            animator.SetTrigger("isIdle");
+            currentIdleTimer = idleTimer;
+        }
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = IsGrounded() ? Color.green : Color.yellow;
+        Gizmos.DrawWireSphere(groundSpherePos, groundCheckRadius);
+    }
 }
