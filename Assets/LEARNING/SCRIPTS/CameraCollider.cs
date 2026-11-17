@@ -4,6 +4,7 @@ public class CameraCollider : MonoBehaviour
 {
     [SerializeField] private float movSpeed = 3f;
     [SerializeField] private float distOffset = 0.2f;
+    [SerializeField] private LayerMask layerToIgnore;
     private Vector3 startPos;
 
     void Awake()
@@ -19,7 +20,7 @@ public class CameraCollider : MonoBehaviour
         Vector3 toIdeal = idealPos - pivotPos;
 
         Vector3 targetPos = idealPos;
-        if (Physics.Raycast(pivotPos, toIdeal.normalized, out RaycastHit hit, toIdeal.magnitude))
+        if (Physics.Raycast(pivotPos, toIdeal.normalized, out RaycastHit hit, toIdeal.magnitude, ~layerToIgnore))
         {
             targetPos = hit.point + hit.normal * distOffset;
         }
@@ -27,6 +28,6 @@ public class CameraCollider : MonoBehaviour
         float t = movSpeed * Time.deltaTime;
         transform.position = Vector3.Lerp(transform.position, targetPos, t);
 
-        //Debug.Log($"Hit: {hit.collider != null} | Target: {targetPos} | Pos: {transform.position}");
+        //Debug.Log($"Hit: {hit.collider != null} | Target: {targetPos} | Pos: {transform.position} | Name: {hit.collider.name}");
     }
 }
