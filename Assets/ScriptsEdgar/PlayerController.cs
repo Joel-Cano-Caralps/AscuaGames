@@ -23,9 +23,6 @@ public class PlayerController : MonoBehaviour
     private Vector3 groundSpherePos;
     [SerializeField] LayerMask groundLayer;
 
-    [Header("Animation Settings")]
-    [SerializeField] float idleTimer = 30f;
-
     InputAction moveAction;
     InputAction sprintAction;
     Rigidbody rb;
@@ -36,7 +33,7 @@ public class PlayerController : MonoBehaviour
     Vector3 lastMoveDir;
     Vector3 force;
     Vector3 groundNormal = Vector3.up;
-    float currentIdleTimer;
+
     Vector3 groundRayOrigin => transform.position + Vector3.up * 0.2f;
     float groundRayLength => 0.2f + groundCheckDistance;
     void Awake()
@@ -49,7 +46,6 @@ public class PlayerController : MonoBehaviour
         sprintAction = inputActions.FindAction("Sprint");
 
         lastMoveDir = Vector3.ProjectOnPlane(transform.forward, Vector3.up).normalized;
-        currentIdleTimer = idleTimer;
 
         groundSpherePos = transform.position;
     }
@@ -148,20 +144,6 @@ public class PlayerController : MonoBehaviour
         bool idle = currentState == PlayerState.Idle;
         animator.SetBool("isMoving", !idle);
         animator.SetBool("isRunning", currentState == PlayerState.Running);
-
-        if (!idle)
-        {
-            currentIdleTimer = idleTimer;
-            animator.ResetTrigger("isIdle");
-            return;
-        }
-
-        currentIdleTimer -= Time.deltaTime;
-        if (currentIdleTimer <= 0f)
-        {
-            animator.SetTrigger("isIdle");
-            currentIdleTimer = idleTimer;
-        }
     }
 
     void OnDrawGizmosSelected()

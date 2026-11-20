@@ -10,6 +10,8 @@ public class Grab : MonoBehaviour
     [SerializeField] private float grabStrength = 10f;
     [SerializeField] private Transform grabPos;
 
+    [SerializeField] private float throwForce = 8f;
+    [SerializeField, Range(0f, 1f)] private float upAmount = 0.3f;
     [SerializeField] private string heldLayerName = "Held";
     private int heldOriginalLayer;
 
@@ -65,6 +67,9 @@ public class Grab : MonoBehaviour
     void Release()
     {
         SetLayerRecursive(heldRb.gameObject, heldOriginalLayer);
+
+        Vector3 dir = (grabPos.forward + Vector3.up * upAmount).normalized;
+        heldRb.linearVelocity = dir * throwForce;
         heldRb = null;
     }
 
