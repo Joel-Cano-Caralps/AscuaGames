@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: FireBall
   m_EditorClassIdentifier: Assembly-CSharp::Modifiers
   prefab: {fileID: 7357980148381913481, guid: 8b9fa46dcc779ac45b2db75d8196332c, type: 3}
-  modSprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  modSprite: {fileID: 21300000, guid: e6bd8da57192b6547b0e81f9053e5a1e, type: 3}

@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: CommonBall
   m_EditorClassIdentifier: Assembly-CSharp::Modifiers
   prefab: {fileID: 7357980148381913481, guid: c3ae6f5b88dab6b48b246339534ca9f0, type: 3}
-  modSprite: {fileID: 9153451109658338658, guid: 074b33d5c29b5264c9fd2fd569d3e67e, type: 3}
+  modSprite: {fileID: 21300000, guid: 0b0a7a5de899fa64492945291732e216, type: 3}
