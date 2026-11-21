@@ -6,6 +6,7 @@ public class Grab : MonoBehaviour
 {
     [Header("Input")]
     [SerializeField] InputActionAsset inputActions;
+    [SerializeField] InputActionAsset DizzyInputActions;
     InputAction grabAction;
     InputAction shootAction;
     [SerializeField] private float grabStrength = 10f;
@@ -72,12 +73,16 @@ public class Grab : MonoBehaviour
                 StartCoroutine(Release(throwAngleAmount, throwForce, 0.6f));
                 playerController.Stun(1f);
                 animator.SetTrigger("throw");
+                GetComponent<PlayerController>().SetInputAction(inputActions);
+
             }
             else if (shootAction.WasPressedThisFrame())
             {
                 StartCoroutine(Release(shootAngleAMount, shootForce, 0.6f));
                 playerController.Stun(1f);
                 animator.SetTrigger("shoot");
+                GetComponent<PlayerController>().SetInputAction(inputActions);
+
             }
             return;
         }

@@ -202,4 +202,13 @@ public class PlayerController : MonoBehaviour
         Gizmos.color = IsGrounded() ? Color.green : Color.yellow;
         Gizmos.DrawWireSphere(groundSpherePos, groundCheckRadius);
     }
+
+    public void SetInputAction(InputActionAsset inAct)
+    {
+        inputActions = inAct;
+        moveAction = inputActions.FindAction("Move");
+        sprintAction = inputActions.FindAction("Sprint");
+        moveAction.Enable();
+        sprintAction.Enable();
+    }
 }
