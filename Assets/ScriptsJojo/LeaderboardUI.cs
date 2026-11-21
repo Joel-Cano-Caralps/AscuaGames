@@ -8,6 +8,11 @@ public class LeaderboardUI : MonoBehaviour
     [SerializeField] Transform container;
     [SerializeField] GameObject PrefabJugador;
 
+    private void Update()
+    {
+        ResetJsonFile();
+    }
+
     public void Refresh()
     {
         foreach (Transform child in container)

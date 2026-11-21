@@ -6,13 +6,15 @@ using UnityEngine.UI;
 
 public class EntradaLeaderboard : MonoBehaviour
 {
-    [SerializeField] GameObject panelInputNames; // el panel que contiene el input y el botón
-    [SerializeField] GameObject panelScore; 
-    [SerializeField] GameObject LeaderboardGM; 
-    [SerializeField] TMP_InputField nameInput;
-    [SerializeField] LeaderboardUI leaderboardUI;
-
-    [SerializeField] public int pendingScore;
+    [SerializeField] GameObject panelInputNames; // El panel que contiene el input y el botón
+    [SerializeField] TextMeshProUGUI scoreFinalInput; // Score que se muestra en lo del input
+    [SerializeField] TextMeshProUGUI scoreFinalNoI; // Score que se muestra en lo del input
+    [SerializeField] GameObject scoreText;  // Score del jugador final
+    [SerializeField] GameObject LeaderboardGM; // Gameobject leaderboard
+    [SerializeField] TMP_InputField nameInput; // El input donde escribe el jugador
+    [SerializeField] LeaderboardUI leaderboardUI; //Script para el archivo
+    [SerializeField] GameController gameController; // Controlador juego
+    [SerializeField] GameObject ButtonsRes_Main; // Controlador juego
 
     public bool inRank = false;
 
@@ -20,7 +22,7 @@ public class EntradaLeaderboard : MonoBehaviour
     {
         nameInput.characterLimit = 12;
         panelInputNames.SetActive(false);
-        panelScore.SetActive(false);
+        scoreText.SetActive(false);
     }
 
     private void Update()
@@ -30,6 +32,8 @@ public class EntradaLeaderboard : MonoBehaviour
             LeaderboardGM.SetActive(true);
             print("Save");
             Save();
+            ButtonsRes_Main.SetActive(true);
+            panelInputNames.SetActive(false);
         }
 
         leaderboardUI.ResetJsonFile();
@@ -37,7 +41,7 @@ public class EntradaLeaderboard : MonoBehaviour
 
     public void ShowIfQualifies(int score)
     {
-        pendingScore = score;
+        score = gameController.getScore();
 
         if (Leaderboard.QualifiesForTop(score))
         {
@@ -45,12 +49,18 @@ public class EntradaLeaderboard : MonoBehaviour
             nameInput.text = "";
             panelInputNames.SetActive(true);
             nameInput.ActivateInputField();
+            scoreFinalInput.text = "Score: " + score.ToString();
         }
         else
         {
+            scoreText.SetActive(true);
+            scoreFinalNoI.text = "Score: " + score.ToString();
+            
             leaderboardUI.Refresh();
+            ButtonsRes_Main.SetActive(true);
         }
-        panelScore.SetActive(true);
+
+        
     }
 
     void Save()
@@ -58,8 +68,9 @@ public class EntradaLeaderboard : MonoBehaviour
         string playerName = nameInput.text.Trim();
         if (string.IsNullOrEmpty(playerName)) playerName = "Noname";
 
-        Leaderboard.Add(playerName, pendingScore);
-        panelInputNames.SetActive(false);
+        Leaderboard.Add(playerName, gameController.getScore());
+        
         leaderboardUI.Refresh();
+        inRank = false;
     }
 }
