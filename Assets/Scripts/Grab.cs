@@ -12,7 +12,10 @@ public class Grab : MonoBehaviour
 
     [SerializeField] private float throwForce = 8f;
     [SerializeField] private float upAmount = 0.3f;
-    [SerializeField] private string heldLayerName = "Held";
+
+    [SerializeField] private float pickupCooldown = 0.5f;
+    private float nextPickupTime;
+
     private int heldOriginalLayer;
 
     private GameObject currentGrabGO;
@@ -20,7 +23,7 @@ public class Grab : MonoBehaviour
 
     void Awake()
     {
-        grabAction = inputActions.FindAction("Grab/Throw");
+        grabAction = inputActions.FindAction("Throw");
     }
 
     void OnEnable()
@@ -47,19 +50,20 @@ public class Grab : MonoBehaviour
 
     void Update()
     {
-        if (!grabAction.IsPressed())
+
+        if (heldRb != null)
         {
-            if (heldRb != null) Release();
+            if (grabAction.WasPressedThisFrame()) Release();
             return;
         }
 
-        if (heldRb == null && currentGrabGO != null)
+        if (currentGrabGO != null && Time.time >= nextPickupTime)
         {
             heldRb = currentGrabGO.GetComponent<Rigidbody>();
             if (heldRb != null)
             {
                 heldOriginalLayer = heldRb.gameObject.layer;
-                SetLayerRecursive(heldRb.gameObject, LayerMask.NameToLayer(heldLayerName));
+                SetLayerRecursive(heldRb.gameObject, LayerMask.NameToLayer("IgnorePlayer"));
             }
         }
     }
@@ -71,6 +75,8 @@ public class Grab : MonoBehaviour
         Vector3 dir = (grabPos.forward + Vector3.up * upAmount).normalized;
         heldRb.linearVelocity = dir * throwForce;
         heldRb = null;
+        currentGrabGO = null;
+        nextPickupTime = Time.time + pickupCooldown;
     }
 
     static void SetLayerRecursive(GameObject go, int layer)
@@ -83,7 +89,6 @@ public class Grab : MonoBehaviour
     {
         if (heldRb == null) return;
 
-        // Pull the object toward grabPos with the given strength
         Vector3 toTarget = grabPos.position - heldRb.position;
         heldRb.linearVelocity = toTarget * grabStrength;
     }
