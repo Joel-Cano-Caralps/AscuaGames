@@ -348,10 +348,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: LeaderBoardMainMenu
       objectReference: {fileID: 0}
-    - target: {fileID: 3465567446102242689, guid: a0ad90d73f70671418f3c29597f77f0e, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
