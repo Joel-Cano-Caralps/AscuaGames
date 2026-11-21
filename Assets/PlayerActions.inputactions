@@ -27,7 +27,7 @@
                     "priority": 0
                 },
                 {
-                    "name": "Grab/Throw",
+                    "name": "Throw",
                     "type": "Button",
                     "id": "81220dbe-cd5d-43d9-bbb8-5fcb0218acc7",
                     "expectedControlType": "",
@@ -111,7 +111,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Grab/Throw",
+                    "action": "Throw",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
