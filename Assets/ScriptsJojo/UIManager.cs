@@ -8,7 +8,6 @@ public class UIManager : MonoBehaviour
     public GameObject InputRank; // Donde el jugador pone el nombre
     public GameObject Scoretext;
     EntradaLeaderboard el;
-    public GameObject butonAtras;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
