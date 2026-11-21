@@ -5,6 +5,7 @@ public class Grab : MonoBehaviour
 {
     [Header("Input")]
     [SerializeField] InputActionAsset inputActions;
+    [SerializeField] InputActionAsset DizzyInputActions;
     InputAction grabAction;
     InputAction shootAction;
     [SerializeField] private float grabStrength = 10f;
@@ -52,20 +53,22 @@ public class Grab : MonoBehaviour
 
     void Update()
     {
-
+        // LANZAMIENTO
         if (heldRb != null)
         {
             if (grabAction.WasPressedThisFrame())
             {
                 Release(throwAngleAmount, throwForce);
+                GetComponent<PlayerController>().SetInputAction(inputActions);
                 return;  
             }
             else if (shootAction.WasPressedThisFrame())
             {
                 Release(shootAngleAMount, shootForce);
+                GetComponent<PlayerController>().SetInputAction(inputActions);
                 return;
             }
-            return; // keep holding; don't run pickup logic
+            return;
         }
 
         if (currentGrabGO != null && Time.time >= nextPickupTime)
@@ -75,6 +78,12 @@ public class Grab : MonoBehaviour
             {
                 heldOriginalLayer = heldRb.gameObject.layer;
                 SetLayerRecursive(heldRb.gameObject, LayerMask.NameToLayer("IgnorePlayer"));
+
+                if (heldRb.tag == "Dizzy")
+                {
+                    
+                    GetComponent<PlayerController>().SetInputAction(DizzyInputActions);
+                }
             }
         }
     }
