@@ -1,29 +1,38 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class EntradaLeaderboard : MonoBehaviour
 {
-    [SerializeField] GameObject panel;          // el panel que contiene el input y el botón
+    [SerializeField] GameObject panelInputNames; // el panel que contiene el input y el botón
+    [SerializeField] GameObject panelScore; 
+    [SerializeField] GameObject LeaderboardGM; 
     [SerializeField] TMP_InputField nameInput;
     [SerializeField] LeaderboardUI leaderboardUI;
 
-    [SerializeField] int pendingScore;
+    [SerializeField] public int pendingScore;
+
+    public bool inRank = false;
 
     void Awake()
     {
         nameInput.characterLimit = 12;
-        //panel.SetActive(false);
+        panelInputNames.SetActive(false);
+        panelScore.SetActive(false);
     }
 
     private void Update()
     {
-        if (Keyboard.current.enterKey.wasPressedThisFrame/* && nameInput.text != null*/)
+        if (Keyboard.current.enterKey.wasPressedThisFrame && inRank)
         {
-            print("dsfsdf");
+            LeaderboardGM.SetActive(true);
+            print("Save");
             Save();
         }
+
+        leaderboardUI.ResetJsonFile();
     }
 
     public void ShowIfQualifies(int score)
@@ -32,28 +41,25 @@ public class EntradaLeaderboard : MonoBehaviour
 
         if (Leaderboard.QualifiesForTop(score))
         {
+            inRank = true;
             nameInput.text = "";
-            panel.SetActive(true);
+            panelInputNames.SetActive(true);
             nameInput.ActivateInputField();
         }
         else
         {
             leaderboardUI.Refresh();
         }
+        panelScore.SetActive(true);
     }
 
     void Save()
     {
         string playerName = nameInput.text.Trim();
-        if (string.IsNullOrEmpty(playerName)) playerName = "Anónimo";
+        if (string.IsNullOrEmpty(playerName)) playerName = "Noname";
 
         Leaderboard.Add(playerName, pendingScore);
-        panel.SetActive(false);
+        panelInputNames.SetActive(false);
         leaderboardUI.Refresh();
-    }
-
-    void ResetList()
-    {
-
     }
 }

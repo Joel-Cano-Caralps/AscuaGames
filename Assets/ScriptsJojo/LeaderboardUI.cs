@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SocialPlatforms.Impl;
 
 public class LeaderboardUI : MonoBehaviour
@@ -28,5 +29,15 @@ public class LeaderboardUI : MonoBehaviour
     void OnEnable()
     {
         Refresh();
+    }
+
+    public void ResetJsonFile()
+    {
+        if (Keyboard.current.deleteKey.wasPressedThisFrame)
+        {
+            print("Reset Json");
+            Leaderboard.Resetjson();
+            Refresh();
+        }
     }
 }
