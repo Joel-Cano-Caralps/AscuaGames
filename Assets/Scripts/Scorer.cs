@@ -7,7 +7,7 @@ public class Scorer : MonoBehaviour
 {
     [SerializeField] private GameController gameController;
     [SerializeField] private int scoreAmmount = 1;
-    [SerializeField] private GameObject floatingNumb;
+    [SerializeField] private GameObject floatingNumb, particle;
 
     void OnTriggerEnter(Collider other)
     {
@@ -15,6 +15,7 @@ public class Scorer : MonoBehaviour
         {
             gameController.Score(scoreAmmount);
             if(floatingNumb != null){floatingNumb.SetActive(true);}
+            if(particle != null){particle.SetActive(true);}
         }
     }
 }

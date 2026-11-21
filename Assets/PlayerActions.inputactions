@@ -117,7 +117,18 @@
                 {
                     "name": "",
                     "id": "284275a0-3c9c-4be3-86e4-da26fc884ff5",
-                    "path": "<Keyboard>/ctrl",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Throw",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6c99948c-7b5f-4401-a1c2-293aed87a394",
+                    "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -129,6 +140,17 @@
                     "name": "",
                     "id": "21f8b994-494f-4dea-b0e5-943bacb6c7fb",
                     "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Shoot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b6ce1b87-0a34-48f4-b99f-891746f79dd9",
+                    "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
