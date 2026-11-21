@@ -98,6 +98,12 @@ public class Grab : MonoBehaviour
         animator.SetTrigger("grab");
         heldOriginalLayer = heldRb.gameObject.layer;
         SetLayerRecursive(heldRb.gameObject, ignorePlayerLayer);
+
+        if (heldRb.tag == "Dizzy")
+        {
+
+            GetComponent<PlayerController>().SetInputAction(DizzyInputActions);
+        }
     }
 
     IEnumerator Release(float angleForce, float force, float waitTime)
