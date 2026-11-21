@@ -11,7 +11,7 @@ public class Grab : MonoBehaviour
     [SerializeField] private Transform grabPos;
 
     [SerializeField] private float throwForce = 8f;
-    [SerializeField, Range(0f, 1f)] private float upAmount = 0.3f;
+    [SerializeField] private float upAmount = 0.3f;
     [SerializeField] private string heldLayerName = "Held";
     private int heldOriginalLayer;
 
