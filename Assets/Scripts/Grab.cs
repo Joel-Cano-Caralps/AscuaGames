@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,19 +12,29 @@ public class Grab : MonoBehaviour
     [SerializeField] private Transform grabPos;
     [SerializeField] private float throwForce = 8f, shootForce = 10f;
     [SerializeField] private float throwAngleAmount = 0.3f, shootAngleAMount;
-
+    private Animator animator;
     [SerializeField] private float pickupCooldown = 0.5f;
     private float nextPickupTime;
 
     private int heldOriginalLayer;
-
+    private PlayerController playerController;
     private GameObject currentGrabGO;
     private Rigidbody heldRb;
+
+
+
+    int interactableLayer, ignorePlayerLayer;
+    bool releasing;
 
     void Awake()
     {
         grabAction = inputActions.FindAction("Throw");
         shootAction = inputActions.FindAction("Shoot");
+        animator = GetComponentInChildren<Animator>();
+        playerController = GetComponent<PlayerController>();
+        interactableLayer = LayerMask.NameToLayer("Interactable");
+        ignorePlayerLayer = LayerMask.NameToLayer("IgnorePlayer");
+
     }
 
     void OnEnable()
@@ -40,53 +51,62 @@ public class Grab : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Interactable"))
+        if (other.gameObject.layer == interactableLayer)
             currentGrabGO = other.gameObject;
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.layer == LayerMask.NameToLayer("Interactable"))
+        if (other.gameObject.layer == interactableLayer)
             currentGrabGO = null;
     }
 
     void Update()
     {
-
         if (heldRb != null)
         {
+            if (releasing) return;
+
             if (grabAction.WasPressedThisFrame())
             {
-                Release(throwAngleAmount, throwForce);
-                return;  
+                StartCoroutine(Release(throwAngleAmount, throwForce, 0.6f));
+                playerController.Stun(1f);
+                animator.SetTrigger("throw");
             }
             else if (shootAction.WasPressedThisFrame())
             {
-                Release(shootAngleAMount, shootForce);
-                return;
+                StartCoroutine(Release(shootAngleAMount, shootForce, 0.6f));
+                playerController.Stun(1f);
+                animator.SetTrigger("shoot");
             }
-            return; // keep holding; don't run pickup logic
+            return;
         }
 
-        if (currentGrabGO != null && Time.time >= nextPickupTime)
+        if (currentGrabGO == null || Time.time < nextPickupTime) return;
+
+        if (!currentGrabGO.TryGetComponent(out heldRb))
         {
-            heldRb = currentGrabGO.GetComponent<Rigidbody>();
-            if (heldRb != null)
-            {
-                heldOriginalLayer = heldRb.gameObject.layer;
-                SetLayerRecursive(heldRb.gameObject, LayerMask.NameToLayer("IgnorePlayer"));
-            }
+            currentGrabGO = null;
+            return;
         }
+
+        animator.SetTrigger("grab");
+        heldOriginalLayer = heldRb.gameObject.layer;
+        SetLayerRecursive(heldRb.gameObject, ignorePlayerLayer);
     }
 
-    void Release(float angleForce, float force)
+    IEnumerator Release(float angleForce, float force, float waitTime)
     {
-        SetLayerRecursive(heldRb.gameObject, heldOriginalLayer);
+        releasing = true;
 
+        yield return new WaitForSeconds(waitTime);
+
+        SetLayerRecursive(heldRb.gameObject, heldOriginalLayer);
         Vector3 dir = (grabPos.forward + Vector3.up * angleForce).normalized;
         heldRb.linearVelocity = dir * force;
         heldRb = null;
         currentGrabGO = null;
+        releasing = false;
         nextPickupTime = Time.time + pickupCooldown;
     }
 

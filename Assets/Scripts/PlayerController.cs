@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -22,7 +23,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float groundCheckRadius = 0.25f;
     private Vector3 groundSpherePos;
     [SerializeField] LayerMask groundLayer;
-
+    [SerializeField] private ParticleSystem movementParticles;
     InputAction moveAction;
     InputAction sprintAction;
     Rigidbody rb;
@@ -33,14 +34,14 @@ public class PlayerController : MonoBehaviour
     Vector3 lastMoveDir;
     Vector3 force;
     Vector3 groundNormal = Vector3.up;
-
+    private bool canMove, tooSteep, controlEnabled = true;
     Vector3 groundRayOrigin => transform.position + Vector3.up * 0.2f;
     float groundRayLength => 0.2f + groundCheckDistance;
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
         cam = Camera.main.transform;
-        //animator = GetComponentInChildren<Animator>();
+        animator = GetComponentInChildren<Animator>();
 
         moveAction = inputActions.FindAction("Move");
         sprintAction = inputActions.FindAction("Sprint");
@@ -64,8 +65,20 @@ public class PlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (!controlEnabled)
+        {
+            currentState = PlayerState.Idle;
+            //FRENAR EN HORIZONTAL (MANTENER LA VELOCIDAD VERTICAL PARA QUE CAIGA)
+            Vector3 vel = rb.linearVelocity;
+            Vector3 horizontal = Vector3.ProjectOnPlane(vel, Vector3.up);
+            Vector3 brake = -horizontal * acceleration;
+            rb.AddForce(brake, ForceMode.Acceleration);
+            if (!IsGrounded()) rb.AddForce(Vector3.down * fallForce, ForceMode.Acceleration);
+            return;
+        }
+
         Vector2 input = Vector2.ClampMagnitude(moveAction.ReadValue<Vector2>(), 1f);
-        //Debug.Log(input);
+
         Vector3 dir = GetMoveDirection(input);
         bool grounded = IsGrounded();
 
@@ -74,21 +87,30 @@ public class PlayerController : MonoBehaviour
         Rotate();
 
         //SI LA PENDIENTE SUPERA EL MAXIMO, NO SE PUEDE CONTROLAR AL PERSONAJE
-        bool tooSteep = Vector3.Angle(Vector3.up, groundNormal) > maxSlopeAngle;
-        bool canMove = grounded && !tooSteep;
+        tooSteep = Vector3.Angle(Vector3.up, groundNormal) > maxSlopeAngle;
+        canMove = grounded && !tooSteep;
 
         if (canMove) Move(dir);
         else if (!grounded) rb.AddForce(Vector3.down * fallForce, ForceMode.Acceleration);
 
         bool isMoving = canMove && dir.sqrMagnitude > 0.01f;
-        if (!isMoving) currentState = PlayerState.Idle;
-        else currentState = sprintAction.IsPressed() ? PlayerState.Running : PlayerState.Walking;
+        
+        if (!isMoving)
+        {
+            movementParticles.Stop();
+            currentState = PlayerState.Idle;
+        }
+        else
+        {
+            movementParticles.Play();
+            currentState = sprintAction.IsPressed() ? PlayerState.Running : PlayerState.Walking;
+        }
     }
 
     void Update()
     {
         Debug.Log("Grounded " + IsGrounded());
-        //SetAnimations();
+        SetAnimations();
     }
 
     Vector3 GetMoveDirection(Vector2 input)
@@ -144,6 +166,35 @@ public class PlayerController : MonoBehaviour
         bool idle = currentState == PlayerState.Idle;
         animator.SetBool("isMoving", !idle);
         animator.SetBool("isRunning", currentState == PlayerState.Running);
+    }
+
+    public bool IsStunned => !controlEnabled;
+    Coroutine stunRoutine;
+
+    //PUNTO DE ENTRADA UNICO: SI YA ESTABA ATURDIDO, REINICIA EL TIEMPO (NO SE SOLAPAN)
+    public void Stun(float time)
+    {
+        if (stunRoutine != null) StopCoroutine(stunRoutine);
+        stunRoutine = StartCoroutine(StunPlayer(time));
+    }
+
+    public IEnumerator StunPlayer(float time)
+    {
+        controlEnabled = false;
+        if (HasAnimatorParam("stun")) animator.SetBool("stun", true);
+
+        yield return new WaitForSeconds(time);
+
+        controlEnabled = true;
+        if (HasAnimatorParam("stun")) animator.SetBool("stun", false);
+        stunRoutine = null;
+    }
+
+    bool HasAnimatorParam(string paramName)
+    {
+        foreach (var p in animator.parameters)
+            if (p.name == paramName) return true;
+        return false;
     }
 
     void OnDrawGizmosSelected()
