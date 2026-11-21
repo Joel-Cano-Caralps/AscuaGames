@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8539b88e6a456d944b93f5ca0707fc53, type: 3}
   m_Name: StickyBall
   m_EditorClassIdentifier: Assembly-CSharp::Modifiers
-  prefab: {fileID: 0}
-  modSprite: {fileID: 0}
+  prefab: {fileID: 7357980148381913481, guid: 545c9a54b661ab844af3282f50ca43ee, type: 3}
+  modSprite: {fileID: 10901, guid: 0000000000000000f000000000000000, type: 0}
