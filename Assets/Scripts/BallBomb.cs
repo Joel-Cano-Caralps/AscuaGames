@@ -38,14 +38,7 @@ public class BallBomb : MonoBehaviour
             PlayerController player = col.GetComponentInParent<PlayerController>();
             if (player == null || !processed.Add(player)) continue;
 
-            player.Stun(stunTime);
-
-            if (player.TryGetComponent(out Rigidbody rb))
-            {
-                // Falloff: full force at center, none at the edge
-                float falloff = 1f - Mathf.Clamp01(Vector3.Distance(transform.position, player.transform.position) / blastRadius);
-                rb.AddExplosionForce(blastForce * falloff, transform.position, blastRadius, upwardsModifier, ForceMode.VelocityChange);
-            }
+            player.Stun(stunTime, true);
         }
     }
 

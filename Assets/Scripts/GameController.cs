@@ -22,10 +22,7 @@ public class GameController : MonoBehaviour
 
     private void Update()
     {
-        if(timer.GetTimerStop())
-        {
-            StartCoroutine(waitOnFinish());
-        }
+        if(timer.GetTimerStop()){StartCoroutine(waitOnFinish());}
     }
 
     public void Score(int score = 0)
@@ -49,10 +46,7 @@ public class GameController : MonoBehaviour
 
     }
 
-    public bool getFinish()
-    {
-        return Finish;
-    }
+    public bool getFinish(){return Finish;}
 
     public void ButtonRestart(bool primera)
     {

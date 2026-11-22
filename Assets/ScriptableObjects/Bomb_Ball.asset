@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8539b88e6a456d944b93f5ca0707fc53, type: 3}
-  m_Name: Fire_Ball
+  m_Name: Bomb_Ball
   m_EditorClassIdentifier: Assembly-CSharp::Modifiers
   prefab: {fileID: 7357980148381913481, guid: 545c9a54b661ab844af3282f50ca43ee, type: 3}
   modSprite: {fileID: 21300000, guid: e6bd8da57192b6547b0e81f9053e5a1e, type: 3}

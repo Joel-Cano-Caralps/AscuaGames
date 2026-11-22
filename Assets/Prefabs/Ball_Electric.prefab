@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 261599193285675826}
   - component: {fileID: 3744968076485379279}
   - component: {fileID: 4478734009256607735}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Pulse
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2309,7 +2309,7 @@ GameObject:
   - component: {fileID: 4987330856373200140}
   - component: {fileID: 3210087146338936250}
   - component: {fileID: 478591932219677006}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Electric
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4610,7 +4610,7 @@ GameObject:
   - component: {fileID: 8268590040915199753}
   - component: {fileID: 8575574193423744284}
   m_Layer: 7
-  m_Name: BallElectric
+  m_Name: Ball_Electric
   m_TagString: Dizzy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4776,6 +4776,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 3811395ad8c3a0149a7599d0eb07f1f8, type: 3}
       propertyPath: m_Name
       value: Anguila
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 3811395ad8c3a0149a7599d0eb07f1f8, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
