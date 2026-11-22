@@ -209,7 +209,7 @@ ModelImporter:
       name: Idle_Bake
       takeName: Idle_Bake
       internalID: 3129571445095458314
-      firstFrame: -1
+      firstFrame: 0
       lastFrame: 119
       wrapMode: 0
       orientationOffsetY: 0
