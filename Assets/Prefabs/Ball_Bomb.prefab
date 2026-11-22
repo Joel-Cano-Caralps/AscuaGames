@@ -2312,6 +2312,7 @@ GameObject:
   - component: {fileID: 8575574193423744284}
   - component: {fileID: 8294654715677435506}
   - component: {fileID: 9071757155180396028}
+  - component: {fileID: 6871634542366345535}
   m_Layer: 7
   m_Name: Ball_Bomb
   m_TagString: Untagged
@@ -2425,15 +2426,15 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7357980148381913481}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 507879456b4a1fe41a1c3c107905fc11, type: 3}
-  m_PlayOnAwake: 0
-  m_Volume: 1
+  m_PlayOnAwake: 1
+  m_Volume: 0.25
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -2442,7 +2443,7 @@ AudioSource:
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -2515,6 +2516,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &6871634542366345535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7357980148381913481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a305e20c2bec3f04bb2b97e1cbe6f9b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CollisionSound
+  hitAudio: {fileID: 8300000, guid: ccab9fe2cd141b04cbd0743c474c6ba9, type: 3}
 --- !u!1001 &616903323876939450
 PrefabInstance:
   m_ObjectHideFlags: 0
