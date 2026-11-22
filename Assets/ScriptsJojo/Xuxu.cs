@@ -1,19 +1,27 @@
 using System.Collections;
 using UnityEngine;
+using static UnityEngine.ParticleSystem;
 
 public class Xuxu : MonoBehaviour
 {
     [SerializeField] GameObject[] spawnXuxu;
     public GameObject XuxuPrefab;
 
-    void Update()
+
+    void Start()
+    {
+        CorrSpawn();
+    }
+
+    public void CorrSpawn()
     {
         StartCoroutine(SpawnXuxu());
     }
 
-    IEnumerator SpawnXuxu()
+    public IEnumerator SpawnXuxu()
     {
         yield return new WaitForSeconds(Random.Range(7f, 13f));
-        Instantiate(XuxuPrefab, spawnXuxu[Random.Range(0,3)].transform.position, Quaternion.identity);
+        Instantiate(XuxuPrefab, spawnXuxu[Random.Range(0, 3)].transform.position, Quaternion.identity);
+
     }
 }

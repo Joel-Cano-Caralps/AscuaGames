@@ -36,4 +36,9 @@ public class Timer : MonoBehaviour
     {
         return stopTimer;
     }    
+
+    public void MoreTime(float mt)
+    {
+        tiempoGame += mt;
+    }
 }
