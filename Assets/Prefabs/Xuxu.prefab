@@ -68,6 +68,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 797bd493802c8a24eabfca69fd89b4b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::XuxuCollider
+  timeToAdd: 5
 --- !u!1 &8446081825071141326
 GameObject:
   m_ObjectHideFlags: 0
@@ -119,7 +120,7 @@ ParticleSystem:
   emitterVelocityMode: 1
   looping: 1
   prewarm: 0
-  playOnAwake: 0
+  playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
   startDelay:
@@ -248,7 +249,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 3
       minMaxState: 0
-      scalar: 2
+      scalar: 3
       minScalar: 1
       maxCurve:
         serializedVersion: 2
