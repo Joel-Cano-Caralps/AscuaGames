@@ -66,7 +66,7 @@ public class Grab : MonoBehaviour
         if (heldRb != null)
         {
             if (releasing) return;
-            //PULSAR CLICK IZQ O CONTROL
+            //CLICK IZQ O CONTROL
             if (grabAction.WasPressedThisFrame())
             {
                 StartCoroutine(Release(throwAngleAmount, throwForce, 0.6f));
@@ -75,7 +75,7 @@ public class Grab : MonoBehaviour
                 GetComponent<PlayerController>().SetInputAction(inputActions);
 
             }
-            //PULSAR CLICK DER O ESPACIO
+            //CLICK DER O ESPACIO
             else if (shootAction.WasPressedThisFrame())
             {
                 StartCoroutine(Release(shootAngleAMount, shootForce, 0.6f));
@@ -104,21 +104,25 @@ public class Grab : MonoBehaviour
 
     public IEnumerator Release(float angleForce, float force, float waitTime)
     {
+        if (heldRb == null) yield break;
+
         releasing = true;
         grabParticles.Stop();
 
         yield return new WaitForSeconds(waitTime);
-        
-        if(heldRb != null)
+
+        // Another Release may have already dropped it during the wait
+        if (heldRb != null)
         {
-        SetLayerRecursive(heldRb.gameObject, heldOriginalLayer);
-        Vector3 dir = (grabPos.forward + Vector3.up * angleForce).normalized;
-        heldRb.linearVelocity = dir * force;
-        heldRb = null;
-        currentGrabGO = null;
-        releasing = false;
-        nextPickupTime = Time.time + pickupCooldown;
+            SetLayerRecursive(heldRb.gameObject, heldOriginalLayer);
+            Vector3 dir = (grabPos.forward + Vector3.up * angleForce).normalized;
+            heldRb.linearVelocity = dir * force;
+            heldRb = null;
+            currentGrabGO = null;
+            nextPickupTime = Time.time + pickupCooldown;
         }
+
+        releasing = false;
     }
 
     static void SetLayerRecursive(GameObject go, int layer)

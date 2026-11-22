@@ -2412,13 +2412,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BallBomb
   delayTime: 5
   particles: {fileID: 7859783049468048009, guid: c45a545232a88374ba5338baad9e113a, type: 3}
-  blastRadius: 5
-  blastForce: 15
-  upwardsModifier: 1
-  stunTime: 1.5
+  blastRadius: 6
+  stunTime: 3
   playerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 8
 --- !u!1001 &616903323876939450
 PrefabInstance:
   m_ObjectHideFlags: 0

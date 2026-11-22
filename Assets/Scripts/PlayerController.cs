@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
     private Vector3 groundSpherePos;
     [SerializeField] LayerMask groundLayer;
     [SerializeField] private ParticleSystem movementParticles;
+    [SerializeField] private GameObject stunBirds;
     InputAction moveAction;
     InputAction sprintAction;
     Rigidbody rb;
@@ -32,6 +33,8 @@ public class PlayerController : MonoBehaviour
     private Grab playerGrabScript;
     PlayerState currentState = PlayerState.Idle;
     Vector3 lastMoveDir;
+    public bool IsStunned => !controlEnabled;
+    Coroutine stunRoutine;
     Vector3 force;
     Vector3 groundNormal = Vector3.up;
     private bool canMove, tooSteep, controlEnabled = true;
@@ -168,34 +171,42 @@ public class PlayerController : MonoBehaviour
         animator.SetBool("isRunning", currentState == PlayerState.Running);
     }
 
-    public bool IsStunned => !controlEnabled;
-    Coroutine stunRoutine;
+
 
     //PUNTO DE ENTRADA UNICO: SI YA ESTABA ATURDIDO, REINICIA EL TIEMPO (NO SE SOLAPAN)
     public void Stun(float time, bool knockOut = false)
     {
+        //Debug.Log("STUNNED!");
+        //Debug.Log("KNOCKOUT:" + knockOut);
         if (stunRoutine != null) StopCoroutine(stunRoutine);
+        //BLOQUEO MOVIMIENTO + ANIMACIONES
         stunRoutine = StartCoroutine(StunPlayer(time,knockOut));
-        if(knockOut)StartCoroutine(playerGrabScript.Release(0f,0f,0f));
+        //DROP ITEMS
+        if(knockOut){StartCoroutine(playerGrabScript.Release(0f,.1f,.1f));}
     }
 
     public IEnumerator StunPlayer(float time, bool animation = false)
     {
         controlEnabled = false;
-        if(animation){animator.SetBool("stunned", true);}
-        if(animation){animator.SetTrigger("stun");}
+        if(animation)
+        {
+            animator.SetBool("stunned", true);
+            animator.SetTrigger("stun");
+            stunBirds.SetActive(true);
+        }
+
+
         yield return new WaitForSeconds(time);
 
-        controlEnabled = true;
-        if(animation)animator.SetBool("stunned", false);
-        stunRoutine = null;
-    }
+        if(animation)
+        {
+            stunBirds.SetActive(false);
+            animator.SetBool("stunned", false);
+        }
 
-    bool HasAnimatorParam(string paramName)
-    {
-        foreach (var p in animator.parameters)
-            if (p.name == paramName) return true;
-        return false;
+        controlEnabled = true;
+        if(animation)
+        stunRoutine = null;
     }
 
     void OnDrawGizmosSelected()
