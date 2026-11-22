@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.Serialization;
+using NaughtyAttributes;
 
 public class RandomEffect : MonoBehaviour
 {
@@ -17,15 +18,23 @@ public class RandomEffect : MonoBehaviour
     [SerializeField] Material [] Outlines;
     [SerializeField] Color [] ColorMat;
     [SerializeField] Timer timer;
+    
+    [HorizontalLine]
+    [Header ("AUDIO")]
+    private AudioSource audioSource;
 
     float currentSpinVal = 0f;
     int currentModifierIndex = 0;
     GameObject activeEffect;
     bool isSpinning = false;
 
-//TEST
+    void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
     void Start()
     {
+        audioSource.Play();
         StartModRoulette();
     }
 
@@ -95,6 +104,8 @@ public class RandomEffect : MonoBehaviour
                 currentModifierIndex = (currentModifierIndex + 1) % modifiers.Length;
             }
             modImage.sprite = modifiers[currentModifierIndex].GetSprite();
+
+            
             yield return null;
         }
 
