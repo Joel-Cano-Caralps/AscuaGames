@@ -29,7 +29,7 @@ public class CustomGravity : MonoBehaviour
         {
             if(gameController.GetNumBall() == positionScore)
             {
-                positionScore = Random.Range(0, 3);
+                positionScore = Random.Range(0, 4);
             }
         }
     }
