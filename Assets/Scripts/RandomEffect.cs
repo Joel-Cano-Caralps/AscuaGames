@@ -34,7 +34,7 @@ public class RandomEffect : MonoBehaviour
     }
     void Start()
     {
-        audioSource.Play();
+        //audioSource.Play();
         StartModRoulette();
     }
 
