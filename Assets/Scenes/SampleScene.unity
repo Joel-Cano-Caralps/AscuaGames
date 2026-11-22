@@ -9738,6 +9738,7 @@ MonoBehaviour:
   timer: {fileID: 1591807328}
   Finish: 0
   entradaLeaderboard: {fileID: 5007619817873169768}
+  BeforeBall: -1
 --- !u!4 &1591807327
 Transform:
   m_ObjectHideFlags: 0
@@ -9797,6 +9798,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6964b210d0ba8e347995669190bdef26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Tutorial
+  WaitSec: 3.55
+  WaitSec2: 6
+  PanelTuto: {fileID: 8550963}
+  player: {fileID: 217222538}
 --- !u!1 &1607949809
 GameObject:
   m_ObjectHideFlags: 0

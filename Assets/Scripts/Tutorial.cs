@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Tutorial : MonoBehaviour
 {
@@ -9,8 +10,7 @@ public class Tutorial : MonoBehaviour
 
     void Start()
     {
-
-        if(PlayerPrefs.GetInt("FirstTimeTuto", 0) == 0)
+        if (PlayerPrefs.GetInt("FirstTimeTuto", 0) == 0)
         {
             player.enabled = false;
             StartCoroutine(stopTimeTuto());
@@ -18,6 +18,16 @@ public class Tutorial : MonoBehaviour
             PlayerPrefs.Save();
         }
     }
+
+    private void Update()
+    {
+        if(Keyboard.current.f5Key.wasPressedThisFrame)
+        {
+            PlayerPrefs.DeleteKey("FirstTimeTuto");
+        }
+    }
+
+    
 
     IEnumerator stopTimeTuto()
     {

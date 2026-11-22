@@ -114,6 +114,7 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log("Grounded " + IsGrounded());
         SetAnimations();
+        Dizzy();
     }
 
     Vector3 GetMoveDirection(Vector2 input)
@@ -222,5 +223,18 @@ public class PlayerController : MonoBehaviour
         sprintAction = inputActions.FindAction("Sprint");
         moveAction.Enable();
         sprintAction.Enable();
+    }
+
+    public void Dizzy()
+    {
+        if(inputActions.name == "DizzyPlayerActions")
+        {
+            stunBirds.SetActive(true);
+        }
+        else
+        {
+            stunBirds.SetActive(false);
+        }
+
     }
 }
