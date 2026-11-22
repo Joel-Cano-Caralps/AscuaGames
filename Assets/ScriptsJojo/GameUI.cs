@@ -4,9 +4,11 @@ using UnityEngine.UI;
 
 public class GameUI : MonoBehaviour
 {
-    [SerializeField] Image icons;
+    [SerializeField] GameObject icons;
     [SerializeField] TextMeshProUGUI scoreText;
+    [SerializeField] GameObject Leaderboard;
     [SerializeField] Timer timer;
+    [SerializeField] GameObject[] sprites;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -23,8 +25,13 @@ public class GameUI : MonoBehaviour
     {
         if(timer.GetTimerStop())
         {
-            icons.enabled = false;
+            icons.SetActive(false);
             scoreText.enabled = false;
+
+            for(int i = 0; i < sprites.Length; i++)
+            {
+                sprites[i].SetActive(false);
+            }
         }
     }
 }

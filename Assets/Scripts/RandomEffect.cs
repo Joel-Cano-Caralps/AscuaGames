@@ -16,6 +16,7 @@ public class RandomEffect : MonoBehaviour
     [SerializeField] Scorer [] scorer;
     [SerializeField] Material [] Outlines;
     [SerializeField] Color [] ColorMat;
+    [SerializeField] Timer timer;
 
     float currentSpinVal = 0f;
     int currentModifierIndex = 0;
@@ -26,6 +27,14 @@ public class RandomEffect : MonoBehaviour
     void Start()
     {
         StartModRoulette();
+    }
+
+    private void Update()
+    {
+        if(timer.GetTimerStop())
+        {
+            Destroy(activeEffect);
+        }
     }
 
 
@@ -125,8 +134,12 @@ public class RandomEffect : MonoBehaviour
 
     void OnEffectDestroyed()
     {
-        activeEffect = null;
-        StartModRoulette();
+        if (!timer.GetTimerStop())
+        {
+            activeEffect = null;
+            StartModRoulette();
+        }
+        
     }
 
 

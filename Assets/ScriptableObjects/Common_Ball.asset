@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8539b88e6a456d944b93f5ca0707fc53, type: 3}
   m_Name: Common_Ball
   m_EditorClassIdentifier: Assembly-CSharp::Modifiers
-  prefab: {fileID: 7357980148381913481, guid: c3ae6f5b88dab6b48b246339534ca9f0, type: 3}
+  prefab: {fileID: 7357980148381913481, guid: d04b4132caeb04e4cab5c9d52ebc3f64, type: 3}
   modSprite: {fileID: 21300000, guid: cd15136ffd602714daa3e28702b33aa3, type: 3}

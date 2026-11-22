@@ -7,7 +7,7 @@ public class Scorer : MonoBehaviour
 {
     [SerializeField] private GameController gameController;
     [SerializeField] private int scoreAmmount = 1;
-    [SerializeField] private GameObject floatingNumb, particle;
+    [SerializeField] private GameObject floatingNumb, particle, particleSmoke;
     [SerializeField] private Collider coll;
     public int positionScore;
     public GameObject ball;
