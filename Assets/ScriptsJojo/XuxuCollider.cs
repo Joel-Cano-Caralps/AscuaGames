@@ -7,6 +7,9 @@ public class XuxuCollider : MonoBehaviour
 
     Xuxu xuxu;
     Vector3 velocidadRotacion = new Vector3(0f, 90f, 0f);
+
+    [SerializeField] private AudioClip itemSFX;
+
     [SerializeField] private float timeToAdd = 2f;
 
     void Start()
@@ -25,6 +28,7 @@ public class XuxuCollider : MonoBehaviour
         {
             xuxu.CorrSpawn();
             xuxu.GetComponent<Timer>().MoreTime(timeToAdd);
+            AudioSource.PlayClipAtPoint(itemSFX,transform.position);
             Destroy(gameObject);
         }
     }
