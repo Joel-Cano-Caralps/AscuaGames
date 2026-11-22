@@ -16,12 +16,11 @@ public class Grab : MonoBehaviour
     private Animator animator;
     [SerializeField] private float pickupCooldown = 0.5f;
     private float nextPickupTime;
-
+    [SerializeField] private ParticleSystem grabParticles;
     private int heldOriginalLayer;
     private PlayerController playerController;
     private GameObject currentGrabGO;
     private Rigidbody heldRb;
-
 
 
     int interactableLayer, ignorePlayerLayer;
@@ -94,7 +93,7 @@ public class Grab : MonoBehaviour
             currentGrabGO = null;
             return;
         }
-
+        grabParticles.Play();
         animator.SetTrigger("grab");
         heldOriginalLayer = heldRb.gameObject.layer;
         SetLayerRecursive(heldRb.gameObject, ignorePlayerLayer);
@@ -109,6 +108,7 @@ public class Grab : MonoBehaviour
     IEnumerator Release(float angleForce, float force, float waitTime)
     {
         releasing = true;
+        grabParticles.Stop();
 
         yield return new WaitForSeconds(waitTime);
 
