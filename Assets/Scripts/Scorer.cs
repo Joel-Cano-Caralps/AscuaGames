@@ -9,8 +9,9 @@ public class Scorer : MonoBehaviour
     [SerializeField] private int scoreAmmount = 1;
     [SerializeField] private GameObject floatingNumb, particle;
     [SerializeField] private Collider coll;
-    [SerializeField] public int positionScore;
-    [SerializeField] public GameObject ball;
+    public int positionScore;
+    public GameObject ball;
+    public Material colorOutline;
 
     public void desactivateCol()
     {

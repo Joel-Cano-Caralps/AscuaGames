@@ -6,6 +6,7 @@ public class GameUI : MonoBehaviour
 {
     [SerializeField] Image icons;
     [SerializeField] TextMeshProUGUI scoreText;
+    [SerializeField] Timer timer;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -20,7 +21,7 @@ public class GameUI : MonoBehaviour
 
     void desactivateUI()
     {
-        if(GetComponent<Timer>().GetTimerStop())
+        if(timer.GetTimerStop())
         {
             icons.enabled = false;
             scoreText.enabled = false;

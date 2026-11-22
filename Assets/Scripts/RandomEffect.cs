@@ -14,6 +14,8 @@ public class RandomEffect : MonoBehaviour
     [SerializeField] Modifiers[] modifiers;
     private GameObject currentBallMod;
     [SerializeField] Scorer [] scorer;
+    [SerializeField] Material [] Outlines;
+    [SerializeField] Color [] ColorMat;
 
     float currentSpinVal = 0f;
     int currentModifierIndex = 0;
@@ -97,17 +99,15 @@ public class RandomEffect : MonoBehaviour
     {
         if (activeEffect != null) Destroy(activeEffect);
 
-        Debug.Log($"Landed on: {currentBallMod.name}");
         activeEffect = Instantiate(currentBallMod, transform.position, Quaternion.identity);
-        
+
+        int n = activeEffect.GetComponent<CustomGravity>().positionScore;
+        activeEffect.GetComponentInChildren<MeshRenderer>().material = Outlines[n];
+
         for (int i = 0; i < scorer.Length; i++)
         {
             scorer[i].setBall(activeEffect);
-        }
-        for (int i = 0; i < scorer.Length; i++)
-        {
             scorer[i].desactivateCol();
         }
-
     }
 }

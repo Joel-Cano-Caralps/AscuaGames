@@ -2396,6 +2396,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CustomGravity
   gravityScale: 2
   gravityDirection: {x: 0, y: -1, z: 0}
+  positionScore: 0
 --- !u!1001 &616903323876939450
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2463,7 +2464,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 26ec4aff82164f44ea437e1b1f60e2e6, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 6bf2fe2f77514aa46a83a91b8cadaf34, type: 2}
+      objectReference: {fileID: 2100000, guid: b82534271d431024b8250d289c6a0b03, type: 2}
     - target: {fileID: -7511558181221131132, guid: 26ec4aff82164f44ea437e1b1f60e2e6, type: 3}
       propertyPath: 'm_Materials.Array.data[1]'
       value: 
