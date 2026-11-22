@@ -109,5 +109,25 @@ public class RandomEffect : MonoBehaviour
             scorer[i].setBall(activeEffect);
             scorer[i].desactivateCol();
         }
+        StartCoroutine(CheckIfAlive(activeEffect));
     }
+
+    static readonly WaitForSeconds aliveCheckDelay = new WaitForSeconds(0.25f);
+
+    IEnumerator CheckIfAlive(GameObject target)
+    {
+        yield return aliveCheckDelay;
+        if (target != null)
+            yield return StartCoroutine(CheckIfAlive(target)); // still alive, check again
+        else
+            OnEffectDestroyed();
+    }
+
+    void OnEffectDestroyed()
+    {
+        activeEffect = null;
+        StartModRoulette();
+    }
+
+
 }
