@@ -13,17 +13,21 @@ public class RandomEffect : MonoBehaviour
     [SerializeField] private Image modImage;
     [SerializeField] Modifiers[] modifiers;
     private GameObject currentBallMod;
+    [SerializeField] Material[] colorsBall;
+    [SerializeField] Scorer [] scorer;
 
     float currentSpinVal = 0f;
     int currentModifierIndex = 0;
     GameObject activeEffect;
     bool isSpinning = false;
+    public bool Create;
 
 //TEST
     void Start()
     {
         StartModRoulette();
     }
+
 
     public void StartModRoulette()
     {
@@ -88,14 +92,20 @@ public class RandomEffect : MonoBehaviour
         currentSpinVal = spinLockVal;
         isSpinning = false;
         currentBallMod = modifiers[currentModifierIndex].GetPrefab();
-        ApplyModifier(currentBallMod);
+        ApplyModifier();
     }
 
-    void ApplyModifier(GameObject modrPrefab)
+    void ApplyModifier()
     {
         if (activeEffect != null) Destroy(activeEffect);
 
         Debug.Log($"Landed on: {currentBallMod.name}");
         activeEffect = Instantiate(currentBallMod, transform.position, Quaternion.identity);
+        currentBallMod.GetComponent<MeshRenderer>().material = colorsBall[Random.Range(0,3)];
+        Create = true;
+        var ballRenderer = activeEffect.GetComponent<MeshRenderer>();
+        ballRenderer.sharedMaterial = colorsBall[Random.Range(0, colorsBall.Length)];
+
+        foreach (var s in scorer) s.CheckMatch(ballRenderer);
     }
 }

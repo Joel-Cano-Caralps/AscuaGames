@@ -8,6 +8,22 @@ public class Scorer : MonoBehaviour
     [SerializeField] private GameController gameController;
     [SerializeField] private int scoreAmmount = 1;
     [SerializeField] private GameObject floatingNumb, particle;
+    [SerializeField] private Collider coll;
+    [SerializeField] public MeshRenderer ScorerMaterial;
+    bool on;
+
+    void Awake()
+    {
+        if (coll == null) coll = GetComponent<Collider>();
+        coll.enabled = false; // apagado hasta que haya una pelota
+    }
+
+    public void CheckMatch(MeshRenderer ball)
+    {
+        coll.enabled = ScorerMaterial.sharedMaterial == ball.sharedMaterial;
+    }
+
+
 
     void OnTriggerEnter(Collider other)
     {

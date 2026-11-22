@@ -35,7 +35,5 @@ public class Timer : MonoBehaviour
     public bool GetTimerStop()
     {
         return stopTimer;
-    }
-
-    
+    }    
 }
