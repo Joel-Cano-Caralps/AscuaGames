@@ -12,13 +12,26 @@ public class CustomGravity : MonoBehaviour
     private Rigidbody rb;
 
     public int positionScore;
+    GameController gameController;
 
     void Awake()
     {
+        gameController = FindAnyObjectByType<GameController>();
         rb = GetComponent<Rigidbody>();
-        // Turn off Unity's built-in gravity so we have full control
-        rb.useGravity = false;
-        positionScore = Random.Range(0, 3);
+        rb.useGravity = false;        
+
+        if(gameController.GetNumBall() == -1)
+        {
+            positionScore = Random.Range(0, 3);
+            gameController.setNumBall(positionScore);
+        }
+        else
+        {
+            if(gameController.GetNumBall() == positionScore)
+            {
+                positionScore = Random.Range(0, 3);
+            }
+        }
     }
 
     void FixedUpdate()

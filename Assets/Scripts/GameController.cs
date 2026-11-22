@@ -12,6 +12,7 @@ public class GameController : MonoBehaviour
     [SerializeField] private Timer timer;
     [SerializeField] private bool Finish;
     [SerializeField] private EntradaLeaderboard entradaLeaderboard;
+    [SerializeField] int BeforeBall = -1;
 
 
     void Start()
@@ -55,6 +56,16 @@ public class GameController : MonoBehaviour
         else 
             SceneManager.LoadScene(0);
         Time.timeScale = 1;
+    }
+
+    public int setNumBall(int bb)
+    {
+        BeforeBall = bb;
+        return BeforeBall;
+    }
+    public int GetNumBall()
+    {
+        return BeforeBall;
     }
 
 }

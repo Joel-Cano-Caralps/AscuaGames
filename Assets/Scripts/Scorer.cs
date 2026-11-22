@@ -22,6 +22,7 @@ public class Scorer : MonoBehaviour
         else
         {
             GetComponent<BoxCollider>().enabled = true;
+            gameController.setNumBall(positionScore);
         }
     }
 
