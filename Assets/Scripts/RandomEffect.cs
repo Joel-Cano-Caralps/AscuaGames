@@ -30,7 +30,7 @@ public class RandomEffect : MonoBehaviour
 
     void Awake()
     {
-        audioSource = GetComponent<AudioSource>();
+        //audioSource = GetComponent<AudioSource>();
     }
     void Start()
     {
