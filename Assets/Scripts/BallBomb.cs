@@ -9,8 +9,6 @@ public class BallBomb : MonoBehaviour
 
     [Header("Blast")]
     [SerializeField] private float blastRadius = 5f;
-    [SerializeField] private float blastForce = 15f;
-    [SerializeField] private float upwardsModifier = 1f;
     [SerializeField] private float stunTime = 1.5f;
     [SerializeField] private LayerMask playerMask = ~0;
 
