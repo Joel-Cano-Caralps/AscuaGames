@@ -4696,6 +4696,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CustomGravity
   gravityScale: 2
   gravityDirection: {x: 0, y: -1, z: 0}
+  positionScore: 0
 --- !u!1001 &8872115330840555856
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4763,11 +4764,15 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 3811395ad8c3a0149a7599d0eb07f1f8, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
-      objectReference: {fileID: 2100000, guid: 5ec07b8ba20bd1f48849021f2ee26f2a, type: 2}
+      objectReference: {fileID: 2100000, guid: 53f307ee9d1ad984ead7266bd195c9a6, type: 2}
     - target: {fileID: -7511558181221131132, guid: 3811395ad8c3a0149a7599d0eb07f1f8, type: 3}
       propertyPath: 'm_Materials.Array.data[1]'
       value: 
       objectReference: {fileID: 2100000, guid: 26f22aa7a87757c4ca04977950e1601f, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 3811395ad8c3a0149a7599d0eb07f1f8, type: 3}
+      propertyPath: 'm_Materials.Array.data[2]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 5ec07b8ba20bd1f48849021f2ee26f2a, type: 2}
     - target: {fileID: 919132149155446097, guid: 3811395ad8c3a0149a7599d0eb07f1f8, type: 3}
       propertyPath: m_Name
       value: Anguila
