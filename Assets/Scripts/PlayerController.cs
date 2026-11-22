@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour
     Rigidbody rb;
     Transform cam;
     Animator animator;
-
+    private Grab playerGrabScript;
     PlayerState currentState = PlayerState.Idle;
     Vector3 lastMoveDir;
     Vector3 force;
@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         cam = Camera.main.transform;
         animator = GetComponentInChildren<Animator>();
-
+        playerGrabScript = GetComponent<Grab>();
         moveAction = inputActions.FindAction("Move");
         sprintAction = inputActions.FindAction("Sprint");
 
@@ -172,21 +172,22 @@ public class PlayerController : MonoBehaviour
     Coroutine stunRoutine;
 
     //PUNTO DE ENTRADA UNICO: SI YA ESTABA ATURDIDO, REINICIA EL TIEMPO (NO SE SOLAPAN)
-    public void Stun(float time)
+    public void Stun(float time, bool knockOut = false)
     {
         if (stunRoutine != null) StopCoroutine(stunRoutine);
-        stunRoutine = StartCoroutine(StunPlayer(time));
+        stunRoutine = StartCoroutine(StunPlayer(time,knockOut));
+        if(knockOut)StartCoroutine(playerGrabScript.Release(0f,0f,0f));
     }
 
-    public IEnumerator StunPlayer(float time)
+    public IEnumerator StunPlayer(float time, bool animation = false)
     {
         controlEnabled = false;
-        if (HasAnimatorParam("stun")) animator.SetBool("stun", true);
-
+        if(animation){animator.SetBool("stunned", true);}
+        if(animation){animator.SetTrigger("stun");}
         yield return new WaitForSeconds(time);
 
         controlEnabled = true;
-        if (HasAnimatorParam("stun")) animator.SetBool("stun", false);
+        if(animation)animator.SetBool("stunned", false);
         stunRoutine = null;
     }
 

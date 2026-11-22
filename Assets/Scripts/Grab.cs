@@ -66,7 +66,7 @@ public class Grab : MonoBehaviour
         if (heldRb != null)
         {
             if (releasing) return;
-
+            //PULSAR CLICK IZQ O CONTROL
             if (grabAction.WasPressedThisFrame())
             {
                 StartCoroutine(Release(throwAngleAmount, throwForce, 0.6f));
@@ -75,6 +75,7 @@ public class Grab : MonoBehaviour
                 GetComponent<PlayerController>().SetInputAction(inputActions);
 
             }
+            //PULSAR CLICK DER O ESPACIO
             else if (shootAction.WasPressedThisFrame())
             {
                 StartCoroutine(Release(shootAngleAMount, shootForce, 0.6f));
@@ -98,20 +99,18 @@ public class Grab : MonoBehaviour
         heldOriginalLayer = heldRb.gameObject.layer;
         SetLayerRecursive(heldRb.gameObject, ignorePlayerLayer);
 
-        if (heldRb.tag == "Dizzy")
-        {
-
-            GetComponent<PlayerController>().SetInputAction(DizzyInputActions);
-        }
+        if (heldRb.tag == "Dizzy"){playerController.SetInputAction(DizzyInputActions);}
     }
 
-    IEnumerator Release(float angleForce, float force, float waitTime)
+    public IEnumerator Release(float angleForce, float force, float waitTime)
     {
         releasing = true;
         grabParticles.Stop();
 
         yield return new WaitForSeconds(waitTime);
-
+        
+        if(heldRb != null)
+        {
         SetLayerRecursive(heldRb.gameObject, heldOriginalLayer);
         Vector3 dir = (grabPos.forward + Vector3.up * angleForce).normalized;
         heldRb.linearVelocity = dir * force;
@@ -119,6 +118,7 @@ public class Grab : MonoBehaviour
         currentGrabGO = null;
         releasing = false;
         nextPickupTime = Time.time + pickupCooldown;
+        }
     }
 
     static void SetLayerRecursive(GameObject go, int layer)

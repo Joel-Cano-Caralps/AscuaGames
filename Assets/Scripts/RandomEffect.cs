@@ -31,7 +31,6 @@ public class RandomEffect : MonoBehaviour
 
         if (modifiers == null || modifiers.Length == 0)
         {
-            Debug.LogWarning("RandomEffect: no modifiers assigned.", this);
             return;
         }
 
@@ -44,7 +43,6 @@ public class RandomEffect : MonoBehaviour
         {
             if (modifiers[i] == null)
             {
-                Debug.LogWarning($"RandomEffect: modifiers[{i}] is empty.", this);
                 return;
             }
         }
@@ -52,10 +50,7 @@ public class RandomEffect : MonoBehaviour
         StartCoroutine(SlowDownRoulette());
     }
 
-    void OnDisable()
-    {
-        isSpinning = false;
-    }
+    void OnDisable(){isSpinning = false;}
 
     IEnumerator SlowDownRoulette()
     {
@@ -88,14 +83,32 @@ public class RandomEffect : MonoBehaviour
         currentSpinVal = spinLockVal;
         isSpinning = false;
         currentBallMod = modifiers[currentModifierIndex].GetPrefab();
-        ApplyModifier(currentBallMod);
+        ApplyModifier();
     }
 
-    void ApplyModifier(GameObject modrPrefab)
+    void ApplyModifier()
     {
         if (activeEffect != null) Destroy(activeEffect);
 
-        Debug.Log($"Landed on: {currentBallMod.name}");
+
         activeEffect = Instantiate(currentBallMod, transform.position, Quaternion.identity);
+        StartCoroutine(CheckIfAlive(activeEffect));
+    }
+
+    static readonly WaitForSeconds aliveCheckDelay = new WaitForSeconds(0.25f);
+
+    IEnumerator CheckIfAlive(GameObject target)
+    {
+        yield return aliveCheckDelay;
+        if (target != null)
+            yield return StartCoroutine(CheckIfAlive(target)); // still alive, check again
+        else
+            OnEffectDestroyed();
+    }
+
+    void OnEffectDestroyed()
+    {
+        activeEffect = null;
+        StartModRoulette();
     }
 }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 175143078917939924}
   - component: {fileID: 7860241052752407278}
   - component: {fileID: 7313819653586433344}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Fire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2310,6 +2310,7 @@ GameObject:
   - component: {fileID: 3391726141746069121}
   - component: {fileID: 8268590040915199753}
   - component: {fileID: 8575574193423744284}
+  - component: {fileID: 8294654715677435506}
   m_Layer: 7
   m_Name: Ball_Bomb
   m_TagString: Untagged
@@ -2396,6 +2397,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CustomGravity
   gravityScale: 2
   gravityDirection: {x: 0, y: -1, z: 0}
+--- !u!114 &8294654715677435506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7357980148381913481}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66be423ba5844704abccb8e6f6e1ed94, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BallBomb
+  delayTime: 5
+  particles: {fileID: 7859783049468048009, guid: c45a545232a88374ba5338baad9e113a, type: 3}
+  blastRadius: 5
+  blastForce: 15
+  upwardsModifier: 1
+  stunTime: 1.5
+  playerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
 --- !u!1001 &616903323876939450
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2471,6 +2493,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 26ec4aff82164f44ea437e1b1f60e2e6, type: 3}
       propertyPath: m_Name
       value: Bomba
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 26ec4aff82164f44ea437e1b1f60e2e6, type: 3}
+      propertyPath: m_Layer
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
