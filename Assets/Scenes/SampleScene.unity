@@ -250,6 +250,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
+  - {fileID: 2100000, guid: 0e30c19d59f00f644933d207a5734174, type: 2}
   - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -2965,6 +2966,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
+  - {fileID: 2100000, guid: 0e30c19d59f00f644933d207a5734174, type: 2}
   - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -3214,8 +3216,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 690944916}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 6e9aa17629cf0bb4ab289527e474a686, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.2298
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6e9aa17629cf0bb4ab289527e474a686, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.2298
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6e9aa17629cf0bb4ab289527e474a686, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.2298
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 6e9aa17629cf0bb4ab289527e474a686, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0
+      value: 0.0000025791933
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6e9aa17629cf0bb4ab289527e474a686, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3223,7 +3237,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6e9aa17629cf0bb4ab289527e474a686, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.77463865
+      value: -0.3375125
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 6e9aa17629cf0bb4ab289527e474a686, type: 3}
       propertyPath: m_LocalRotation.w
@@ -3258,7 +3272,15 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 6e9aa17629cf0bb4ab289527e474a686, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 6e9aa17629cf0bb4ab289527e474a686, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 4f29abb930094314690f447e8fcdc7bb, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 6e9aa17629cf0bb4ab289527e474a686, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
       value: 
       objectReference: {fileID: 2100000, guid: 7a0384dd435253c4c90de0e6266b5380, type: 2}
     - target: {fileID: 919132149155446097, guid: 6e9aa17629cf0bb4ab289527e474a686, type: 3}
@@ -6810,6 +6832,9 @@ MonoBehaviour:
   scoreAmmount: 1
   floatingNumb: {fileID: 1556516251}
   particle: {fileID: 2136458868}
+  coll: {fileID: 0}
+  positionScore: 0
+  ball: {fileID: 0}
 --- !u!1 &1028426824
 GameObject:
   m_ObjectHideFlags: 0
@@ -6847,6 +6872,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 57db0f2c318779540a86160e449a75f2, type: 2}
   - {fileID: 11400000, guid: c77433e9f17dd8e4dac1fad16338e72a, type: 2}
   - {fileID: 11400000, guid: b0a95f4218334824ea1393d19fe8414e, type: 2}
+  scorer:
+  - {fileID: 1001470167}
+  - {fileID: 1746417787}
+  - {fileID: 2137057135}
+  - {fileID: 2076824377}
 --- !u!4 &1028426826
 Transform:
   m_ObjectHideFlags: 0
@@ -7409,6 +7439,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
+  - {fileID: 2100000, guid: 0e30c19d59f00f644933d207a5734174, type: 2}
   - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -7947,7 +7978,7 @@ Transform:
   m_GameObject: {fileID: 1746417784}
   serializedVersion: 2
   m_LocalRotation: {x: 0.49999854, y: -0.5, z: -0.5, w: 0.5000015}
-  m_LocalPosition: {x: 0, y: 0.5, z: -1}
+  m_LocalPosition: {x: -0, y: 0.5, z: -1.53}
   m_LocalScale: {x: 2, y: 1, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7990,6 +8021,9 @@ MonoBehaviour:
   scoreAmmount: 1
   floatingNumb: {fileID: 949025584}
   particle: {fileID: 1850742414}
+  coll: {fileID: 0}
+  positionScore: 1
+  ball: {fileID: 0}
 --- !u!1001 &1774090605
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8038,6 +8072,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: df8917f8713bc054a8a68267265186aa, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: df8917f8713bc054a8a68267265186aa, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: b82534271d431024b8250d289c6a0b03, type: 2}
+    - target: {fileID: -7511558181221131132, guid: df8917f8713bc054a8a68267265186aa, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: -876546973899608171, guid: df8917f8713bc054a8a68267265186aa, type: 3}
     - target: {fileID: 919132149155446097, guid: df8917f8713bc054a8a68267265186aa, type: 3}
       propertyPath: m_Name
       value: Golf
@@ -8921,7 +8967,15 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: b2fa0ec2566c1ce43b89c94aace5a570, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: b2fa0ec2566c1ce43b89c94aace5a570, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 5ec07b8ba20bd1f48849021f2ee26f2a, type: 2}
+    - target: {fileID: -7511558181221131132, guid: b2fa0ec2566c1ce43b89c94aace5a570, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
       value: 
       objectReference: {fileID: 2100000, guid: 7a0384dd435253c4c90de0e6266b5380, type: 2}
     - target: {fileID: 919132149155446097, guid: b2fa0ec2566c1ce43b89c94aace5a570, type: 3}
@@ -9008,6 +9062,9 @@ MonoBehaviour:
   scoreAmmount: 1
   floatingNumb: {fileID: 722230550}
   particle: {fileID: 0}
+  coll: {fileID: 0}
+  positionScore: 3
+  ball: {fileID: 0}
 --- !u!1001 &2136458867
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9149,6 +9206,9 @@ MonoBehaviour:
   scoreAmmount: 1
   floatingNumb: {fileID: 1442027223}
   particle: {fileID: 657352830}
+  coll: {fileID: 0}
+  positionScore: 2
+  ball: {fileID: 0}
 --- !u!1 &48561296723352017
 GameObject:
   m_ObjectHideFlags: 0

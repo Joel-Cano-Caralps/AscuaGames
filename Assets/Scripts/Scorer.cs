@@ -9,21 +9,25 @@ public class Scorer : MonoBehaviour
     [SerializeField] private int scoreAmmount = 1;
     [SerializeField] private GameObject floatingNumb, particle;
     [SerializeField] private Collider coll;
-    [SerializeField] public MeshRenderer ScorerMaterial;
-    bool on;
+    [SerializeField] public int positionScore;
+    [SerializeField] public GameObject ball;
 
-    void Awake()
+    public void desactivateCol()
     {
-        if (coll == null) coll = GetComponent<Collider>();
-        coll.enabled = false; // apagado hasta que haya una pelota
+        if(ball.GetComponent<CustomGravity>().positionScore != positionScore)
+        {
+            GetComponent<BoxCollider>().enabled = false;
+        }
+        else
+        {
+            GetComponent<BoxCollider>().enabled = true;
+        }
     }
 
-    public void CheckMatch(MeshRenderer ball)
+    public void setBall(GameObject b)
     {
-        coll.enabled = ScorerMaterial.sharedMaterial == ball.sharedMaterial;
+        ball = b;
     }
-
-
 
     void OnTriggerEnter(Collider other)
     {
