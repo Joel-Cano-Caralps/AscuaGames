@@ -4758,7 +4758,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 3811395ad8c3a0149a7599d0eb07f1f8, type: 3}
       propertyPath: m_Materials.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 3811395ad8c3a0149a7599d0eb07f1f8, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -4767,7 +4767,7 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 3811395ad8c3a0149a7599d0eb07f1f8, type: 3}
       propertyPath: 'm_Materials.Array.data[1]'
       value: 
-      objectReference: {fileID: 2100000, guid: 6bf2fe2f77514aa46a83a91b8cadaf34, type: 2}
+      objectReference: {fileID: 2100000, guid: 26f22aa7a87757c4ca04977950e1601f, type: 2}
     - target: {fileID: 919132149155446097, guid: 3811395ad8c3a0149a7599d0eb07f1f8, type: 3}
       propertyPath: m_Name
       value: Anguila
