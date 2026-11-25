@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -6,71 +7,59 @@ using UnityEngine.UI;
 
 public class EntradaLeaderboard : MonoBehaviour
 {
-    [SerializeField] GameObject panelInputNames; // El panel que contiene el input y el botón
-    [SerializeField] TextMeshProUGUI scoreFinalInput; // Score que se muestra en lo del input
-    [SerializeField] TextMeshProUGUI scoreFinalNoI; // Score que se muestra en lo del input
-    [SerializeField] GameObject scoreText;  // Score del jugador final
+
+    [SerializeField] TextMeshProUGUI scoreFinal; // Score jugador final
+    [SerializeField] GameObject PanelscoreFinal; // Score jugador final
     [SerializeField] GameObject LeaderboardGM; // Gameobject leaderboard
-    [SerializeField] TMP_InputField nameInput; // El input donde escribe el jugador
-    [SerializeField] LeaderboardUI leaderboardUI; //Script para el archivo
+    public LeaderboardUI leaderboardUI; //Script para el archivo
     [SerializeField] GameController gameController; // Controlador juego
-    [SerializeField] GameObject ButtonsRes_Main; // Controlador juego
+    [SerializeField] GameObject ButtonsRestart_Main; // Boton resetera y main menu
+    [SerializeField] string playerName; // Name Player
+    [SerializeField] PlayerName plName; // Name Player
 
     public bool inRank = false;
 
-    void Awake()
+
+    private void Start()
     {
-        nameInput.characterLimit = 12;
-        panelInputNames.SetActive(false);
-        scoreText.SetActive(false);
+        leaderboardUI.Refresh();
+        plName = FindAnyObjectByType<PlayerName>();
+        playerName = plName.playerName;
+        PanelscoreFinal.SetActive(false);
     }
 
     private void Update()
     {
-        if (Keyboard.current.enterKey.wasPressedThisFrame && inRank)
-        {
-            LeaderboardGM.SetActive(true);
-            print("Save");
-            Save();
-            ButtonsRes_Main.SetActive(true);
-            panelInputNames.SetActive(false);
-        }
-
         leaderboardUI.ResetJsonFile();
     }
 
-    public void ShowIfQualifies(int score)
+    public IEnumerator ShowIfQualifies(int score)
     {
-        score = gameController.getScore();
-
-        if (Leaderboard.QualifiesForTop(score))
-        {
-            inRank = true;
-            nameInput.text = "";
-            panelInputNames.SetActive(true);
-            nameInput.ActivateInputField();
-            scoreFinalInput.text = "Score: " + score.ToString();
-        }
-        else
-        {
-            scoreText.SetActive(true);
-            scoreFinalNoI.text = "Score: " + score.ToString();
-            
-            leaderboardUI.Refresh();
-            ButtonsRes_Main.SetActive(true);
-        }
-
-        
+        ScoreFinal();
+        scoreFinal.text = "Score: " + score;
+        yield return new WaitForSeconds(5f);
+        PanelscoreFinal.SetActive(false);
+        score = gameController.getScore();        
+        LeaderboardGM.SetActive(true);        
+        ButtonsRestart_Main.SetActive(true);
+        leaderboardUI.Refresh();
+        ButtonsRestart_Main.SetActive(true);
+        Time.timeScale = 0;
     }
 
     void Save()
     {
-        string playerName = nameInput.text.Trim();
-        if (string.IsNullOrEmpty(playerName)) playerName = "Noname";
-
-        Leaderboard.Add(playerName, gameController.getScore());
-        
+        Leaderboard.Add(playerName, gameController.getScore());        
         leaderboardUI.Refresh();
-        inRank = false;
+    }
+
+    public void ScoreFinal()
+    {
+        if (!gameController.getFinish())
+        {
+            PanelscoreFinal.SetActive(true);
+            Save();
+            gameController.setFinish(true);
+        }        
     }
 }

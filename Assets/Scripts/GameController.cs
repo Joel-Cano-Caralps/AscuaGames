@@ -7,6 +7,7 @@ public class GameController : MonoBehaviour
 {
     private int playerScore = 0;
     [SerializeField] private RandomEffect gameModGenerator;
+    [SerializeField] TextMeshProUGUI scoreToBeat; // Score jugador final
     [SerializeField] private TextMeshProUGUI scoreText;
     [SerializeField] private PlayerController playerController;
     [SerializeField] private Timer timer;
@@ -14,7 +15,10 @@ public class GameController : MonoBehaviour
     [SerializeField] private EntradaLeaderboard entradaLeaderboard;
     [SerializeField] int BeforeBall = -1;
 
-
+    private void Awake()
+    {
+        entradaLeaderboard.leaderboardUI.TakeLast();
+    }
     void Start()
     {
         Finish = false;
@@ -23,7 +27,7 @@ public class GameController : MonoBehaviour
 
     private void Update()
     {
-        if(timer.GetTimerStop()){StartCoroutine(waitOnFinish());}
+        if(timer.GetTimerStop()){waitOnFinish();}
     }
 
     public void Score(int score = 0)
@@ -38,16 +42,13 @@ public class GameController : MonoBehaviour
         return playerScore;
     }
 
-    IEnumerator waitOnFinish()
+    public void waitOnFinish()
     {
-        yield return new WaitForSeconds(5f);
-        Finish = true;
-        entradaLeaderboard.ShowIfQualifies(playerScore);
-        Time.timeScale = 0;
-
+        StartCoroutine(entradaLeaderboard.ShowIfQualifies(playerScore));
     }
 
     public bool getFinish(){return Finish;}
+    public bool setFinish(bool fin){ Finish = fin; return Finish;}
 
     public void ButtonRestart(bool primera)
     {

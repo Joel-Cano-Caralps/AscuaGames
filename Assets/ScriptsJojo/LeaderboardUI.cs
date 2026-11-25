@@ -1,3 +1,4 @@
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -7,6 +8,13 @@ public class LeaderboardUI : MonoBehaviour
 {
     [SerializeField] Transform container;
     [SerializeField] GameObject PrefabJugador;
+    [SerializeField] TextMeshProUGUI ScoreASuperar;
+    public int lastRank;
+
+    private void Start()
+    {
+        if (ScoreASuperar != null) ScoreASuperar = null;
+    }
 
     private void Update()
     {
@@ -29,6 +37,10 @@ public class LeaderboardUI : MonoBehaviour
             texts[1].text = entries[i].name;
             texts[2].text = entries[i].score.ToString();
         }
+        TakeLast();
+        
+        if(ScoreASuperar != null) ScoreASuperar.text = lastRank.ToString();
+
     }
 
     void OnEnable()
@@ -44,5 +56,11 @@ public class LeaderboardUI : MonoBehaviour
             Leaderboard.Resetjson();
             Refresh();
         }
+    }
+
+    public void TakeLast()
+    {
+        var list = Leaderboard.Load();
+        lastRank = list.Count == 0 ? 0 : list.Last().score;
     }
 }

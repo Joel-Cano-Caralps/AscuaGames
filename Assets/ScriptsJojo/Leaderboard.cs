@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -35,5 +36,10 @@ public static class Leaderboard
     public static void Resetjson()
     {
         File.Delete(Path);
+    }
+
+    public static bool NameExists(string name)
+    {
+        return Load().Any(e => string.Equals(e.name, name.Trim(), StringComparison.OrdinalIgnoreCase));
     }
 }

@@ -21,7 +21,7 @@ public class Tutorial : MonoBehaviour
 
     private void Update()
     {
-        if(Keyboard.current.f5Key.wasPressedThisFrame)
+        if(Keyboard.current.mKey.wasPressedThisFrame)
         {
             PlayerPrefs.DeleteKey("FirstTimeTuto");
         }
