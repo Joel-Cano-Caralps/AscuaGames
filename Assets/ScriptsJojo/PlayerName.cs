@@ -35,7 +35,7 @@ public class PlayerName : MonoBehaviour
             
     }
 
-    void CogerNombre()
+    async void CogerNombre()
     {
         string n = nameInput.text.Trim();
         if (string.IsNullOrEmpty(n)) n = "Noname";
@@ -49,6 +49,7 @@ public class PlayerName : MonoBehaviour
 
         playerName = n;
         OnStart = false;
+        await OnlineLeaderboard.InitAsync(playerName);
         SceneManager.LoadScene(1);
     }
 

@@ -21,14 +21,13 @@ public class LeaderboardUI : MonoBehaviour
         ResetJsonFile();
     }
 
-    public void Refresh()
+    public async void Refresh()
     {
-        foreach (Transform child in container)
-        {
-            Destroy(child.gameObject);
-        }
+        var entries = await OnlineLeaderboard.GetTopAsync();
+        if (this == null) return;   // por si el objeto se destruyó mientras esperaba
 
-        var entries = Leaderboard.Load();
+        foreach (Transform child in container) Destroy(child.gameObject);
+
         for (int i = 0; i < entries.Count; i++)
         {
             var row = Instantiate(PrefabJugador, container);
@@ -37,10 +36,9 @@ public class LeaderboardUI : MonoBehaviour
             texts[1].text = entries[i].name;
             texts[2].text = entries[i].score.ToString();
         }
-        TakeLast();
-        
-        if(ScoreASuperar != null) ScoreASuperar.text = lastRank.ToString();
 
+        lastRank = entries.Count == 0 ? 0 : entries.Last().score;
+        if (ScoreASuperar != null) ScoreASuperar.text = lastRank.ToString();
     }
 
     void OnEnable()

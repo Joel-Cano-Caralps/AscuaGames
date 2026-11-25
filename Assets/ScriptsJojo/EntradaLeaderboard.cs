@@ -47,9 +47,10 @@ public class EntradaLeaderboard : MonoBehaviour
         Time.timeScale = 0;
     }
 
-    void Save()
+    async void Save()
     {
-        Leaderboard.Add(playerName, gameController.getScore());        
+        Leaderboard.Add(playerName, gameController.getScore());
+        await OnlineLeaderboard.SubmitAsync(gameController.getScore());
         leaderboardUI.Refresh();
     }
 
