@@ -8,12 +8,18 @@ using UnityEngine;
 
 public static class OnlineLeaderboard
 {
-    const string Id = "ranking";   // el mismo ID del Dashboard
-    static bool ready;
+    const string Id = "ranking";   // el mismo ID que en el Dashboard
 
-    public static async Task<bool> InitAsync(string playerName)
+    static Task<bool> signInTask;  // una sola tarea de login compartida
+
+    // Limpia el estado al empezar el Play (por si tienes desactivado Reload Domain)
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    static void ResetStatics() => signInTask = null;
+
+    static Task<bool> EnsureSignedIn() => signInTask ??= DoSignIn();
+
+    static async Task<bool> DoSignIn()
     {
-        if (ready) return true;
         try
         {
             if (UnityServices.State != ServicesInitializationState.Initialized)
@@ -22,23 +28,39 @@ public static class OnlineLeaderboard
             if (!AuthenticationService.Instance.IsSignedIn)
                 await AuthenticationService.Instance.SignInAnonymouslyAsync();
 
+            return true;
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogWarning(e);
+            signInTask = null;   // permite reintentar
+            return false;
+        }
+    }
+
+    public static async Task SetNameAsync(string playerName)
+    {
+        if (!await EnsureSignedIn()) return;
+        try
+        {
             await AuthenticationService.Instance.UpdatePlayerNameAsync(playerName);
-            ready = true;
         }
         catch (System.Exception e) { Debug.LogWarning(e); }
-        return ready;
     }
 
     public static async Task SubmitAsync(int score)
     {
-        if (!ready) return;
-        try { await LeaderboardsService.Instance.AddPlayerScoreAsync(Id, score); }
+        if (!await EnsureSignedIn()) return;
+        try
+        {
+            await LeaderboardsService.Instance.AddPlayerScoreAsync(Id, score);
+        }
         catch (System.Exception e) { Debug.LogWarning(e); }
     }
 
     public static async Task<List<Entry>> GetTopAsync()
     {
-        if (!ready) return new List<Entry>();
+        if (!await EnsureSignedIn()) return new List<Entry>();
         try
         {
             var r = await LeaderboardsService.Instance.GetScoresAsync(Id, new GetScoresOptions { Limit = 10 });
@@ -48,6 +70,17 @@ public static class OnlineLeaderboard
                 score = (int)x.Score
             }).ToList();
         }
-        catch (System.Exception e) { Debug.LogWarning(e); return new List<Entry>(); }
+        catch (System.Exception e)
+        {
+            Debug.LogWarning(e);
+            return new List<Entry>();
+        }
+    }
+
+    public static async Task<int> GetScoreToEnterAsync()
+    {
+        var top = await GetTopAsync();
+        if (top.Count < 10) return 0;
+        return top.Last().score + 1;
     }
 }

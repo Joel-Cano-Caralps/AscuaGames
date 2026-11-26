@@ -16,7 +16,6 @@ public class RandomEffect : MonoBehaviour
     private GameObject currentBallMod;
     [SerializeField] Scorer [] scorer;
     [SerializeField] Material [] Outlines;
-    [SerializeField] Color [] ColorMat;
     [SerializeField] Timer timer;
     
     [HorizontalLine]
@@ -149,9 +148,6 @@ public class RandomEffect : MonoBehaviour
         {
             activeEffect = null;
             StartModRoulette();
-        }
-        
+        }        
     }
-
-
 }

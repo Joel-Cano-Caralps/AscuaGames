@@ -1,6 +1,8 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class Grab : MonoBehaviour
 {
@@ -21,6 +23,8 @@ public class Grab : MonoBehaviour
     private PlayerController playerController;
     private GameObject currentGrabGO;
     private Rigidbody heldRb;
+    [SerializeField] Volume volume;
+
 
 
     int interactableLayer, ignorePlayerLayer;
@@ -99,7 +103,10 @@ public class Grab : MonoBehaviour
         heldOriginalLayer = heldRb.gameObject.layer;
         SetLayerRecursive(heldRb.gameObject, ignorePlayerLayer);
 
-        if (heldRb.tag == "Dizzy"){playerController.SetInputAction(DizzyInputActions);}
+        if (heldRb.tag == "Dizzy")
+        {
+            playerController.SetInputAction(DizzyInputActions);
+        }
     }
 
     public IEnumerator Release(float angleForce, float force, float waitTime)

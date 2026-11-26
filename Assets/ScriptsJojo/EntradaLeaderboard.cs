@@ -1,36 +1,21 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.SocialPlatforms.Impl;
-using UnityEngine.UI;
 
 public class EntradaLeaderboard : MonoBehaviour
 {
-
-    [SerializeField] TextMeshProUGUI scoreFinal; // Score jugador final
-    [SerializeField] GameObject PanelscoreFinal; // Score jugador final
-    [SerializeField] GameObject LeaderboardGM; // Gameobject leaderboard
-    public LeaderboardUI leaderboardUI; //Script para el archivo
-    [SerializeField] GameController gameController; // Controlador juego
-    [SerializeField] GameObject ButtonsRestart_Main; // Boton resetera y main menu
-    [SerializeField] string playerName; // Name Player
-    [SerializeField] PlayerName plName; // Name Player
+    [SerializeField] TextMeshProUGUI scoreFinal;   // Score jugador final
+    [SerializeField] GameObject PanelscoreFinal;   // Panel del score final
+    [SerializeField] GameObject LeaderboardGM;     // GameObject del leaderboard
+    public LeaderboardUI leaderboardUI;            // Script de la UI del ranking
+    [SerializeField] GameController gameController;
+    [SerializeField] GameObject ButtonsRestart_Main;
 
     public bool inRank = false;
 
-
-    private void Start()
+    void Start()
     {
-        leaderboardUI.Refresh();
-        plName = FindAnyObjectByType<PlayerName>();
-        playerName = plName.playerName;
         PanelscoreFinal.SetActive(false);
-    }
-
-    private void Update()
-    {
-        leaderboardUI.ResetJsonFile();
     }
 
     public IEnumerator ShowIfQualifies(int score)
@@ -38,18 +23,16 @@ public class EntradaLeaderboard : MonoBehaviour
         ScoreFinal();
         scoreFinal.text = "Score: " + score;
         yield return new WaitForSeconds(5f);
+
         PanelscoreFinal.SetActive(false);
-        score = gameController.getScore();        
-        LeaderboardGM.SetActive(true);        
+        LeaderboardGM.SetActive(true);
         ButtonsRestart_Main.SetActive(true);
         leaderboardUI.Refresh();
-        ButtonsRestart_Main.SetActive(true);
         Time.timeScale = 0;
     }
 
     async void Save()
     {
-        Leaderboard.Add(playerName, gameController.getScore());
         await OnlineLeaderboard.SubmitAsync(gameController.getScore());
         leaderboardUI.Refresh();
     }
@@ -61,6 +44,6 @@ public class EntradaLeaderboard : MonoBehaviour
             PanelscoreFinal.SetActive(true);
             Save();
             gameController.setFinish(true);
-        }        
+        }
     }
 }

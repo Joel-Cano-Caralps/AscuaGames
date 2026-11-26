@@ -1,8 +1,6 @@
 using System.Linq;
 using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.SocialPlatforms.Impl;
 
 public class LeaderboardUI : MonoBehaviour
 {
@@ -11,14 +9,9 @@ public class LeaderboardUI : MonoBehaviour
     [SerializeField] TextMeshProUGUI ScoreASuperar;
     public int lastRank;
 
-    private void Start()
+    void OnEnable()
     {
-        if (ScoreASuperar != null) ScoreASuperar = null;
-    }
-
-    private void Update()
-    {
-        ResetJsonFile();
+        Refresh();
     }
 
     public async void Refresh()
@@ -39,26 +32,5 @@ public class LeaderboardUI : MonoBehaviour
 
         lastRank = entries.Count == 0 ? 0 : entries.Last().score;
         if (ScoreASuperar != null) ScoreASuperar.text = lastRank.ToString();
-    }
-
-    void OnEnable()
-    {
-        Refresh();
-    }
-
-    public void ResetJsonFile()
-    {
-        if (Keyboard.current.deleteKey.wasPressedThisFrame)
-        {
-            print("Reset Json");
-            Leaderboard.Resetjson();
-            Refresh();
-        }
-    }
-
-    public void TakeLast()
-    {
-        var list = Leaderboard.Load();
-        lastRank = list.Count == 0 ? 0 : list.Last().score;
     }
 }

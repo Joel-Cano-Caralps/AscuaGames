@@ -1,6 +1,7 @@
 using System.Collections;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
@@ -17,7 +18,7 @@ public class GameController : MonoBehaviour
 
     private void Awake()
     {
-        entradaLeaderboard.leaderboardUI.TakeLast();
+        ShowScoreToBeat();
     }
     void Start()
     {
@@ -28,6 +29,11 @@ public class GameController : MonoBehaviour
     private void Update()
     {
         if(timer.GetTimerStop()){waitOnFinish();}
+
+        if(Keyboard.current.rKey.wasPressedThisFrame)
+        {
+            ButtonRestart(true);
+        }
     }
 
     public void Score(int score = 0)
@@ -69,4 +75,10 @@ public class GameController : MonoBehaviour
         return BeforeBall;
     }
 
+    async void ShowScoreToBeat()
+    {
+        int min = await OnlineLeaderboard.GetScoreToEnterAsync();
+        if (this == null) return;
+        scoreToBeat.text = min.ToString();
+    }
 }
