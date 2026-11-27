@@ -20,8 +20,8 @@ public class Xuxu : MonoBehaviour
 
     public IEnumerator SpawnXuxu()
     {
-        yield return new WaitForSeconds(Random.Range(7f, 13f));
-        Instantiate(XuxuPrefab, spawnXuxu[Random.Range(0, 3)].transform.position, Quaternion.identity);
+        yield return new WaitForSeconds(Random.Range(7f, 12f));
+        Instantiate(XuxuPrefab, spawnXuxu[Random.Range(0, 4)].transform.position, Quaternion.identity);
 
     }
 }
